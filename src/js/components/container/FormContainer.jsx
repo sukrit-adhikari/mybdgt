@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Input from "../presentational/Input.jsx";
-// import DatabaseContainer from "./DatabaseContainer.jsx";
+import Input from "./Input.jsx";
 
 const FormContainer = class FormContainer extends Component {
   constructor() {
@@ -28,9 +27,6 @@ const FormContainer = class FormContainer extends Component {
           handleChange={this.handleChange}
         />
       </form>
-      {/* <DatabaseContainer>
-
-      </DatabaseContainer> */}
       </div>
     );
   }

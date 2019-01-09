@@ -1,5 +1,17 @@
+const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+
 module.exports = {
+  entry: {
+    main: './src/index.js'
+  },
+  output: {
+    path: path.join(__dirname, 'dist/web'),
+    publicPath: '/',
+    filename: '[name].js'
+  },
+  target: 'web',
+  // devtool: '#source-map',
   module: {
     rules: [
       {
@@ -13,22 +25,25 @@ module.exports = {
         test: /\.html$/,
         use: [
           {
-            loader: "html-loader"
+            loader: "html-loader",
+            //options: { minimize: true }
           }
         ]
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [
-        'file-loader'
-        ]
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
+      },
+      {
+       test: /\.(png|svg|jpg|gif)$/,
+       use: ['file-loader']
       }
     ]
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: "./src/index.html",
-      filename: "./index.html"
+      excludeChunks: [ 'server' ]
     })
   ]
-};
+}

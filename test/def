@@ -1,0 +1,70 @@
+const path = require('path')
+const express = require('express')
+
+var graphqlHTTP = require('express-graphql');
+var { buildSchema } = require('graphql');
+
+var schema = buildSchema(`
+    type Query {
+        transaction(id: Int!): Transaction
+        transactions: [Transaction]
+    },
+    type Transaction {
+        id: Int
+        userId: Int
+        amount: Float
+        accountId: Int
+        credit: Int
+        dateAndTime: String
+    }
+`);
+
+const transactions = [
+    {
+        id:1,
+        uerId:1,
+        amount:10.99,
+        accountId:1,
+        credit:0,
+        dateAndTime:"test1"
+    }
+    // ,{
+    //     id:2,
+    //     uerId:1,
+    //     amount:20.99,
+    //     accountId:1,
+    //     credit:0,
+    //     dateAndTime:"test2"
+    // }
+];
+
+// const getTransactions = function(args){
+//     return transactions;
+// }
+
+const app = express(),
+DIST_DIR = "../dist",
+HTML_FILE = path.join(DIST_DIR, 'index.html');
+
+
+// var root = {
+//     transaction: getTransaction,
+//     transactions: getTransactions
+// };
+
+// app.use('/api', graphqlHTTP({
+//     schema: schema,
+//     rootValue: root,
+//     graphiql: false,
+// }));
+
+app.use(express.static(DIST_DIR))
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(HTML_FILE));
+});
+
+const PORT = process.env.PORT || 8080
+app.listen(PORT, () => {
+    console.log(`App listening to ${PORT}....`)
+    console.log('Press Ctrl+C to quit.')
+});

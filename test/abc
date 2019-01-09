@@ -1,0 +1,23 @@
+
+it('should insert and get 3 users', function (done) {
+createUserTable().then(function(){
+    var stmt = db.prepare("INSERT INTO user VALUES (?,?,?)");
+    stmt.run([null, "username" + 0, "password" + 0]);
+    stmt.run([null, "username" + 1, "password" + 1]);
+    stmt.run([null, "username" + 2, "password" + 2]);
+    stmt.finalize(function () {
+        db.all("SELECT id, password, username FROM user where id > -1",
+            [],
+            function (err, rows) {
+                if (err) {
+                    done(err);
+                }
+                assert.equal(rows.length, 3)
+                done();
+            }
+        );
+    });
+},function(err){
+    done(err);
+});
+});

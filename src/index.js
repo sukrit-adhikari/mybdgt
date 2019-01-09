@@ -6,10 +6,6 @@ import {Route,Switch} from 'react-router';
 import FormContainer from "./js/components/container/FormContainer.jsx";
 import Error404 from "./js/components/container/Error404.jsx";
 
-// import DatabaseContainer from "./js/components/container/DatabaseContainer.jsx";
-
-
-
 ReactDOM.render(
     <HashRouter> 
       <Switch>
@@ -18,4 +14,4 @@ ReactDOM.render(
       </Switch>  
     </HashRouter>,
     document.getElementById('create-article-form')
-  );
+);
