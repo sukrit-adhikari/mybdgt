@@ -6,8 +6,12 @@ import {Route,Switch} from 'react-router';
 import FormContainer from "./js/components/container/FormContainer.jsx";
 import Error404 from "./js/components/container/Error404.jsx";
 
+// import DatabaseContainer from "./js/components/container/DatabaseContainer.jsx";
+
+
+
 ReactDOM.render(
-    <HashRouter>
+    <HashRouter> 
       <Switch>
         <Route exact path="/" component={FormContainer}/>
         <Route path="*" component={Error404}/>
