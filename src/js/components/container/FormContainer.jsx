@@ -39,7 +39,8 @@ const FormContainer = class FormContainer extends Component {
       <div>
         <div class="row">
             {this.state.transactions.map((item) => (
-              <div class="card col-lg-4 col-md-4">
+              <div class={"card col-lg-3 col-md-3" +(item.amount > 90 ? " text-white bg-danger" : " bg-light")}>
+              <div class="card-header">{item.id}</div>
                 <div class="card-body">
                   <h5 class="card-title">{item.dateAndTime}</h5>
                   <p class="card-text">{item.amount}</p>
