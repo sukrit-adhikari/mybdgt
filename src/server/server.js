@@ -24,14 +24,14 @@ var schema = buildSchema(`
 
 const transactions = [];
 
-Array(10).fill().map((v, i) => i).forEach(function (value, index) {
+Array(100).fill().map((v, i) => i).forEach(function (value, index) {
     transactions.push(
         {
             id: index,
             uerId: 1,
-            amount: 10.99,
+            amount: 100*Math.random(),
             accountId: 1,
-            credit: 0,
+            credit: Math.ceil(Math.random()),
             dateAndTime: new Date() 
         }
     );
