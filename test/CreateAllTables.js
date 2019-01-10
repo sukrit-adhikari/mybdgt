@@ -3,13 +3,10 @@ const allModel = require('../src/js/model/all.js');
 const assert = require('assert');
 let db = null;
 
-beforeEach(function () {
-    db = new sqlite3.Database(':memory:');
+before(function () {
+    db = new sqlite3.Database('');
 });
 
-afterEach(function () {
-    db.close();
-});
 
 describe('Create User Table', function () {
     it('should create table', function (done) {
@@ -19,6 +16,20 @@ describe('Create User Table', function () {
             }
             done();
         });
+    });
+
+    it('insert [username] NULL should fail', function (done) {
+        db.run("INSERT INTO user VALUES (?,?,?)", [null, null, null], function (err) {
+            assert.throws(function () {
+                if (err) {
+                    throw new Error();
+                }else{
+                }
+            }, Error, "const. failed - NULL username is not allowed.");
+            done();
+        });
+    }, function (err) {
+        done(err);
     });
 });
 

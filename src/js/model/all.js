@@ -1,6 +1,6 @@
 module.exports = {
     user : function(){ 
-        return "CREATE TABLE `user` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL, `password` TEXT NOT NULL )"
+        return "CREATE TABLE `user` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL UNIQUE, `password` TEXT NOT NULL )"
     },
     transaction : function(){ 
         return "CREATE TABLE `transaction` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER ,`amount` NUMBER NOT NULL, `account_id` INTEGER , `credit` INTEGER NOT NULL, `dateandtime` TEXT NOT NULL )"

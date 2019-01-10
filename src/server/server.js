@@ -22,18 +22,22 @@ var schema = buildSchema(`
     }
 `);
 
-const transactions = [
-    {
-        id:1,
-        uerId:1,
-        amount:10.99,
-        accountId:1,
-        credit:0,
-        dateAndTime:"test1"
-    }
-];
+const transactions = [];
 
-const getTransactions = function(args){
+Array(10).fill().map((v, i) => i).forEach(function (value, index) {
+    transactions.push(
+        {
+            id: index,
+            uerId: 1,
+            amount: 10.99,
+            accountId: 1,
+            credit: 0,
+            dateAndTime: new Date() 
+        }
+    );
+});
+ 
+const getTransactions = function (args) {
     return transactions;
 }
 
@@ -43,17 +47,20 @@ var root = {
 };
 
 const app = express(),
-    DIST_DIR = path.join('./dist',__dirname,'web'),
+    DIST_DIR = path.join('./dist', __dirname, 'web'),
     HTML_FILE = path.resolve(DIST_DIR, 'index.html'),
     compiler = webpack(config);
 
+app.use(require("webpack-dev-middleware")(compiler, {
+    noInfo: true, publicPath: config.output.publicPath
+}));
 app.use(webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath
 }));
 
 app.use('/api', graphqlHTTP({
     schema: schema,
-    rootValue: root,
+    rootValue: root, 
     graphiql: true,
 }));
 

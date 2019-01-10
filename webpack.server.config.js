@@ -1,8 +1,10 @@
 const path = require('path')
-// const webpack = require('webpack')
+const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
+
 module.exports = {
   entry: {
+    // server : ["webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000","./src/server/server.js"]
     server: './src/server/server.js',
   },
   output: {
@@ -10,6 +12,7 @@ module.exports = {
     publicPath: '/',
     filename: '[name].js'
   },
+  // plugins: [new webpack.HotModuleReplacementPlugin()],
   target: 'node',
 //   node: {
 //     // Need this when working with express, otherwise the build fails
