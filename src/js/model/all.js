@@ -2,6 +2,18 @@ module.exports = {
     user : function(){ 
         return "CREATE TABLE `user` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL UNIQUE, `password` TEXT NOT NULL )"
     },
+    createUserTable : function(db){
+        const self = this;
+        return new Promise(function(resolve,reject){
+            db.exec(self.user(), function (err) {
+                if (err) {
+                    reject(err);
+                }else{
+                    resolve({});
+                }
+            });
+        });
+    },
     transaction : function(){ 
         return "CREATE TABLE `transaction` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER NOT NULL ,`amount` NUMBER NOT NULL, `account_id` INTEGER , `credit` INTEGER NOT NULL, `dateandtime` TEXT NOT NULL )"
     },

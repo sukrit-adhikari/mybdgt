@@ -1,6 +1,8 @@
 const sqlite3 = require("sqlite3").verbose();
 const allModel = require('../src/js/model/all.js');
 const assert = require('assert');
+const init = require('../src/server/init.js');
+
 let db = null;
 
 before(function () {
@@ -51,6 +53,22 @@ describe('Create Account Table', function () {
                 done(err);
             }
             done();
+        });
+    });
+});
+
+describe('Server Init', function () {
+    it('initDatabase', function (done) {
+        init.initDatabase().then(function(res){
+            res.db.all("SELECT * FROM user",[],function(err,rows){
+                if(err){
+                    done(err);
+                }
+                console.log(rows);
+                done();
+            })
+        },function(err){
+            done(err);
         });
     });
 });

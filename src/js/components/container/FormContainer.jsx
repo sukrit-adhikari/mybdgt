@@ -37,17 +37,28 @@ const FormContainer = class FormContainer extends Component {
   render() {
     return (
       <div>
-        <div class="row">
+        <div class="row"><table class="table table-responsive-sm">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Id</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Date</th>
+              <th scope="col">account</th>
+            </tr>
+          </thead>
+          <tbody>
             {this.state.transactions.map((item) => (
-              <div class={"card col-lg-3 col-md-3" +(item.amount > 90 ? " text-white bg-danger" : " bg-light")}>
-              <div class="card-header">{item.id}</div>
-                <div class="card-body">
-                  <h5 class="card-title">{item.dateAndTime}</h5>
-                  <p class="card-text">{item.amount}</p>
-                  <a href="#" class="btn btn-primary">More</a>
-                </div>
-              </div>
+              <tr>
+                <th scope="row">2</th>
+                <td>{item.id}</td>
+                <td>{item.amount}</td>
+                <td>{item.dateAndTime}</td>
+                <td>account</td>
+              </tr>
             ))}
+          </tbody>
+        </table>
         </div>
       </div>
     );
