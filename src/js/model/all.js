@@ -18,7 +18,7 @@ module.exports = {
         return executeSQL(db,this.user());
     },
     transaction: function () {
-        return "CREATE TABLE `bdgt_transaction` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER NOT NULL ,`amount` NUMBER NOT NULL, `account_id` INTEGER , `credit` INTEGER NOT NULL, `date_and_time` TEXT NOT NULL )"
+        return "CREATE TABLE `bdgt_transaction` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER NOT NULL ,`amount` NUMBER NOT NULL, `comment` TEXT NULL ,`account_id` INTEGER , `credit` INTEGER NOT NULL, `date_and_time` TEXT NOT NULL )"
     },
     createTransactionTable: function (db) {
         return executeSQL(db,this.transaction());

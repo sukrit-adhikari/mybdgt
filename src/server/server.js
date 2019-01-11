@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+var morgan = require('morgan')
 const webpack = require('webpack');
 import init from './init.js';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -12,7 +13,7 @@ let db = null;
 
 const getTransactions = function (args) {
     return new Promise(function(resolve,reject){
-        db.all("SELECT id,amount,account_id as accountId, date_and_time as dateAndTime FROM bdgt_transaction", [], function(err,rows){
+        db.all("SELECT id,amount,comment,account_id as accountId, date_and_time as dateAndTime FROM bdgt_transaction", [], function(err,rows){
             if(err){
                 reject(err);
             }
@@ -29,6 +30,7 @@ var schema = buildSchema(`
     type Transaction {
         id: Int
         userId: Int
+        comment: String
         amount: Float
         accountId: Int
         credit: Int
@@ -49,10 +51,7 @@ app.use(webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath
 }));
 
-app.use(function(req, res, next) {
-    console.log('Something is happening.');
-    next(); // make sure we go to the next routes and don't stop here
-});
+app.use(morgan('combined'));
 
 app.use('/api', graphqlHTTP({
     schema: schema,

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Input from "./Input.jsx";
 import ApolloClient from "apollo-boost";
 import gql from "graphql-tag";
 
@@ -20,7 +19,7 @@ const FormContainer = class FormContainer extends Component {
         query: gql`
       {
         transactions {
-          id,userId,amount,accountId,credit,dateAndTime
+          id,userId,amount,comment,accountId,credit,dateAndTime
         } 
       }
     `
@@ -41,10 +40,10 @@ const FormContainer = class FormContainer extends Component {
             {this.state.transactions.map((item) => (
               <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{item.amount}</h5>
+                <h5 class="mb-1">${item.amount}</h5>
                 <small>{item.dateAndTime}</small>
               </div>
-              <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+              <p class="mb-1">{item.comment}</p>
               <small>Donec id elit non mi porta.</small>
             </a>
             ))}
