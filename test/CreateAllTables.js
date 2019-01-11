@@ -58,13 +58,12 @@ describe('Create Account Table', function () {
 });
 
 describe('Server Init', function () {
-    it('initDatabase', function (done) {
+    it('initDatabase [create table and seed]', function (done) {
         init.initDatabase().then(function(res){
             res.db.all("SELECT * FROM user",[],function(err,rows){
                 if(err){
                     done(err);
                 }
-                console.log(rows);
                 done();
             })
         },function(err){

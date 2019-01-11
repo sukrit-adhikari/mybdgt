@@ -12,13 +12,27 @@ module.exports = {
                     reject(err);
                 }
             });
-            allModel.createUserTable(db)
-                .then(function () {
-                    return seed.user(db);
-                },function(err){reject(err)})
-                .then(function () {
-                    resolve({ db: db });
-                },function(err){reject(err)})
+
+            allModel.createUserTable(db) // Create Table
+            .then(function () { 
+                return allModel.createTagTable(db);
+            }, function (err) { reject(err)})
+            .then(function () {
+                return allModel.createTransactionTable(db);
+            }, function (err) { reject(err)})
+            .then(function () {
+                return seed.tag(db);// Seed Table
+            }, function (err) { reject(err)})
+            .then(function () {
+                return seed.user(db);
+            }, function (err) { reject(err) })
+            .then(function () {
+                return seed.transaction(db);
+            }, function (err) { reject(err) })
+            .then(function () {
+                resolve({ db: db });
+            }, function (err) { reject(err) })
+
         });
     }
 }

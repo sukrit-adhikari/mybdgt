@@ -36,29 +36,18 @@ const FormContainer = class FormContainer extends Component {
   }
   render() {
     return (
-      <div>
-        <div class="row"><table class="table table-responsive-sm">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Id</th>
-              <th scope="col">Amount</th>
-              <th scope="col">Date</th>
-              <th scope="col">account</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div class="row">
+        <div class="list-group">
             {this.state.transactions.map((item) => (
-              <tr>
-                <th scope="row">2</th>
-                <td>{item.id}</td>
-                <td>{item.amount}</td>
-                <td>{item.dateAndTime}</td>
-                <td>account</td>
-              </tr>
+              <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{item.amount}</h5>
+                <small>{item.dateAndTime}</small>
+              </div>
+              <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+              <small>Donec id elit non mi porta.</small>
+            </a>
             ))}
-          </tbody>
-        </table>
         </div>
       </div>
     );
