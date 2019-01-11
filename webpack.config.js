@@ -6,7 +6,7 @@ module.exports = {
     main: './src/index.js'
   },
   output: {
-    path: path.join(__dirname, 'dist/web'),
+    path: path.resolve(__dirname, './dist/web'),
     publicPath: '/',
     filename: '[name].js'
   },

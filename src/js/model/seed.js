@@ -41,7 +41,7 @@ module.exports = {
     },
     transaction: function (db) {
         return new Promise(function (resolve, reject) {
-            const stmt = db.prepare("INSERT INTO bdgt_transaction VALUES (?,?,?,?,?,?)");
+            const stmt = db.prepare("INSERT INTO bdgt_transaction VALUES (?,?,?,?,?,?,?)");
 
             Array(10).fill().map((v, i) => i).forEach(function (value, index) {
                 stmt.run(
@@ -49,9 +49,10 @@ module.exports = {
                         null,
                         1,
                         100 * Math.random(),
+                        "Comment",
                         1,
                         1,
-                        new Date()
+                        JSON.stringify(new Date())
                     ]
                 );
             });
