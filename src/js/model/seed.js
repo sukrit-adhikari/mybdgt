@@ -25,6 +25,20 @@ module.exports = {
             });
         });
     },
+    account: function (db) {
+        return new Promise(function (resolve, reject) {
+            const stmt = db.prepare("INSERT INTO account VALUES (?,?,?)");
+            stmt.run([null, "account1", 1]);
+            stmt.run([null, "account2", 1]);
+            stmt.finalize(function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({});
+                }
+            });
+        });
+    },
     transaction: function (db) {
         return new Promise(function (resolve, reject) {
             const stmt = db.prepare("INSERT INTO bdgt_transaction VALUES (?,?,?,?,?,?)");

@@ -21,10 +21,16 @@ module.exports = {
                 return allModel.createTransactionTable(db);
             }, function (err) { reject(err)})
             .then(function () {
+                return allModel.createAccountTable(db);
+            }, function (err) { reject(err)})
+            .then(function () {
                 return seed.tag(db);// Seed Table
             }, function (err) { reject(err)})
             .then(function () {
                 return seed.user(db);
+            }, function (err) { reject(err) })
+            .then(function () {
+                return seed.account(db);
             }, function (err) { reject(err) })
             .then(function () {
                 return seed.transaction(db);

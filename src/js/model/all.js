@@ -26,6 +26,9 @@ module.exports = {
     account: function () {
         return "CREATE TABLE `account` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `display_name` TEXT NOT NULL, `user_id` INTEGER NOT NULL)"
     },
+    createAccountTable: function (db) {
+        return executeSQL(db,this.account());
+    },
     tagGroup: function () {
         return "CREATE TABLE `tag_group` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER NOT NULL , `display_name` TEXT NOT NULL, `tag_group_id` INTEGER)"
     },
