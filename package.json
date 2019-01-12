@@ -7,7 +7,7 @@
     "test": "mocha",
     "buildServer": "webpack --mode development --config webpack.server.config.js",
     "buildWeb": "webpack  --mode development --config webpack.config.js",
-    "start": "rm -rf dist/* && npm run buildServer && npm run buildWeb && node './dist/server.js'"
+    "start": "rm -rf dist/* && npm run buildServer && node './dist/server.js'"
   },
   "keywords": [],
   "author": "",
@@ -34,9 +34,10 @@
     "react": "^16.7.0",
     "react-apollo": "^2.3.3",
     "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "webpack": "^4.28.1",
+    "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1",
     "webpack-dev-middleware": "^3.5.0",
     "webpack-dev-server": "^3.1.14",
@@ -44,6 +45,8 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
+    "node-env-file": "^0.1.8",
+    "redux": "^4.0.1",
     "sqlite3": "^4.0.4"
   }
 }

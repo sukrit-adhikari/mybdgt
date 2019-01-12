@@ -1,18 +1,22 @@
 const sqlite3 = require("sqlite3").verbose();
 const allModel = require('../js/model/all.js');
 const seed = require('../js/model/seed.js');
+const fs = require('fs');
 
 let db = null;
 
 module.exports = {
-    initDatabase: function () {
+    initDatabase: function (sqlitePath) {
         return new Promise(function (resolve, reject) {
-            db = new sqlite3.Database(':memory:', function (err) {
+            db = new sqlite3.Database(sqlitePath, function (err) {
                 if (err) {
                     reject(err);
                 }
             });
-
+            // if (sqlitePath && !sqlitePath.startsWith(':') && fs.existsSync(sqlitePath)) {
+            //     resolve(db);
+            //     return;
+            // }
             allModel.createUserTable(db) // Create Table
             .then(function () { 
                 return allModel.createTagTable(db);
