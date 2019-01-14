@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
+    "testCov": "nyc mocha",
     "buildServer": "webpack --mode development --config webpack.server.config.js --watch",
     "buildWeb": "webpack  --mode development --config webpack.config.js",
     "start": "npm run buildServer && node './dist/server.js'",
-    "startServerWatch":"nodemon ./dist/server.js"
+    "startServerWatch": "nodemon ./dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
     "mocha": "^5.2.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.9",
+    "nyc": "^13.1.0",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-apollo": "^2.3.3",

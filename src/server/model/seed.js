@@ -39,7 +39,7 @@ module.exports = {
             });
         });
     },
-    transaction: function (db) {
+    transactionFake: function (db) {
         return new Promise(function (resolve, reject) {
             const stmt = db.prepare("INSERT INTO bdgt_transaction VALUES (?,?,?,?,?,?,?)");
 
@@ -66,4 +66,4 @@ module.exports = {
             });
         });
     },
-};
+}; 

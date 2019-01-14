@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 var morgan = require('morgan')
 const webpack = require('webpack');
-import serverBootstrap from './init.js';
+import serverBootstrap from './init.js'; 
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import config from '../../webpack.config.js';
 import expressGraphql from './express-graphql.js';

@@ -3,8 +3,8 @@ import ApolloClient from "apollo-boost";
 import gql from "graphql-tag";
 import { createStore } from 'redux';
 import { Provider } from 'react-redux'
-import { connect } from 'react-redux'
-import HistoryFilter from "../HistoryFilter.jsx";
+// import { connect } from 'react-redux'
+// import HistoryFilter from "../HistoryFilter.jsx";
 
 function counter(state = {}, action) {
   switch (action.type) {
@@ -20,11 +20,6 @@ function counter(state = {}, action) {
 }
 
 let store = createStore(counter,{ transactions:[],accounts:[] } );
-
-
-store.subscribe(() =>
-  console.log(store.getState())
-)
 
 const FormContainer = class FormContainer extends Component {
   constructor() {
@@ -56,7 +51,7 @@ const FormContainer = class FormContainer extends Component {
   }
   render() {
     return (
-      <div>
+      <Provider store={store}>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Bdgt</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -159,7 +154,7 @@ const FormContainer = class FormContainer extends Component {
           </div>
           <div class="row">
         <div class="list-group">
-            {store.getState().transactions.map((item) => (
+            {store.transactions.map((item) => (
               <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">${item.amount}</h5>
@@ -173,15 +168,9 @@ const FormContainer = class FormContainer extends Component {
       </div>
       </div>
   </div>
-  </div>
+  </Provider>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-        addTodo
-    }, dispatch)
-}
-
-export default connect(null, mapDispatchToProps)(FormContainer);
+export default FormContainer;

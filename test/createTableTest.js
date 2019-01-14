@@ -1,7 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
-const allModel = require('../src/js/model/all.js');
+const tableModel = require('../src/server/model/table.js');
 const assert = require('assert');
-const init = require('../src/server/init.js');
 
 let db = null;
 
@@ -9,10 +8,9 @@ before(function () {
     db = new sqlite3.Database('');
 });
 
-
 describe('Create User Table', function () {
     it('should create table', function (done) {
-        db.exec(allModel.user(), function (err) {
+        db.exec(tableModel.user(), function (err) {
             if (err) {
                 done(err);
             }
@@ -37,7 +35,7 @@ describe('Create User Table', function () {
 
 describe('Create Transaction Table', function () {
     it('should create table', function (done) {
-        db.exec(allModel.transaction(), function (err) {
+        db.exec(tableModel.transaction(), function (err) {
             if (err) {
                 done(err);
             }
@@ -48,26 +46,11 @@ describe('Create Transaction Table', function () {
 
 describe('Create Account Table', function () {
     it('should create table', function (done) {
-        db.exec(allModel.account(), function (err) {
+        db.exec(tableModel.account(), function (err) {
             if (err) {
                 done(err);
             }
             done();
-        });
-    });
-});
-
-describe('Server Init', function () {
-    it('initDatabase [create table and seed]', function (done) {
-        init.initDatabase().then(function(res){
-            res.db.all("SELECT * FROM user",[],function(err,rows){
-                if(err){
-                    done(err);
-                }
-                done();
-            })
-        },function(err){
-            done(err);
         });
     });
 });
