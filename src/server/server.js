@@ -33,8 +33,7 @@ const setupEndpoints = function(db){
         });
     }catch(err){
         return err;
-    }
-   
+    } 
     return null;
 }
 
