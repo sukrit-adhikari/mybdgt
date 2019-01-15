@@ -1,27 +1,8 @@
 import React, { Component } from "react";
 import ApolloClient from "apollo-boost";
 import gql from "graphql-tag";
-import { createStore } from 'redux';
-import { Provider } from 'react-redux'
-// import { connect } from 'react-redux'
-// import HistoryFilter from "../HistoryFilter.jsx";
 
-function counter(state = {}, action) {
-  switch (action.type) {
-  case 'REFRESH_ALL_ACCOUNT':
-    state.accounts = action.accounts;
-    return state;
-  case 'REFRESH_TRANSACTIONS':
-    state.transactions = action.transactions;
-    return state;
-  default:
-    return state
-  }
-}
-
-let store = createStore(counter,{ transactions:[],accounts:[] } );
-
-const FormContainer = class FormContainer extends Component {
+const SPA = class SPA extends Component {
   constructor() {
     super();
     this.state = {
@@ -29,29 +10,29 @@ const FormContainer = class FormContainer extends Component {
     };
   }
   componentWillMount() {
-    const client = new ApolloClient({
-      uri: "/api"
-    });
-    client
-      .query({
-        query: gql`
-      {
-        transactions {
-          id,userId,amount,comment,accountId,credit,dateAndTime
-        } 
-      }
-    `
-      })
-      .then(result => {
-        store.dispatch({ type: 'REFRESH_TRANSACTIONS',transactions:result.data.transactions })
-      })
+    // const client = new ApolloClient({
+    //   uri: "/api"
+    // });
+    // client
+    //   .query({
+    //     query: gql`
+    //   {
+    //     transactions {
+    //       id,userId,amount,comment,accountId,credit,dateAndTime
+    //     } 
+    //   }
+    // `
+    //   })
+    //   .then(result => {
+    //     store.dispatch({ type: 'REFRESH_TRANSACTIONS',transactions:result.data.transactions })
+    //   })
   }
   refreshAllAccount(accounts){
-    store.dispatch({ type: 'REFRESH_ALL_ACCOUNT',accounts:accounts })
+    // store.dispatch({ type: 'REFRESH_ALL_ACCOUNT',accounts:accounts })
   }
   render() {
     return (
-      <Provider store={store}>
+      <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Bdgt</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -106,11 +87,6 @@ const FormContainer = class FormContainer extends Component {
                                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                       <a class="dropdown-item" href="#">Action</a>
                                       <a class="dropdown-item" href="#">Another action</a>
-                                      {/* <HistoryFilter 
-                                      refreshAllAccount={this.refreshAllAccount}
-                                      store={store}
-                                      >
-                                      </HistoryFilter> */}
                                       <div class="dropdown-divider"></div>
                                       <a class="dropdown-item" href="#">Something else here</a>
                                   </div>
@@ -152,9 +128,9 @@ const FormContainer = class FormContainer extends Component {
                   </ul>
               </div>
           </div>
-          <div class="row">
+        <div class="row">
         <div class="list-group">
-            {store.getState().transactions.map((item) => (
+            {/* {store.getState().transactions.map((item) => (
               <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">${item.amount}</h5>
@@ -163,14 +139,14 @@ const FormContainer = class FormContainer extends Component {
               <p class="mb-1">{item.comment}</p>
               <small>Donec id elit non mi porta.</small>
             </a>
-            ))}
+            ))} */}
         </div>
       </div>
       </div>
   </div>
-  </Provider>
+  </div>
     );
   }
 }
 
-export default FormContainer;
+export default SPA;

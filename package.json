@@ -7,7 +7,7 @@
     "test": "mocha",
     "testCov": "nyc mocha",
     "buildServer": "webpack --mode development --config webpack.server.config.js --watch",
-    "buildWeb": "webpack  --mode development --config webpack.config.js",
+    "buildWeb": "webpack  --mode development --config webpack.config.js --watch",
     "start": "npm run buildServer && node './dist/server.js'",
     "startServerWatch": "nodemon ./dist/server.js"
   },
