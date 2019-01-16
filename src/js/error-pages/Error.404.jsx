@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import {React, Component } from "react";
 
 import NotFoundImage from '../../assets/icons/404.jpg';
 

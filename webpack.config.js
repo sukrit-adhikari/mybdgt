@@ -11,7 +11,7 @@ module.exports = {
     filename: '[name].js'
   },
   target: 'web',
-  devtool: '#source-map',
+  devtool: 'source-map',
   module: {
     rules: [
       {

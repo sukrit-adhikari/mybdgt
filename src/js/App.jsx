@@ -1,29 +1,54 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import {React,Component} from 'react';
+import { Provider, connect } from 'react-redux';
 import { createStore } from 'redux';
 import SPA from './components/container/SPA.jsx';
 
-function counter(state = {}, action) {
-  switch (action.type) {
-  case 'REFRESH_ALL_ACCOUNT':
-    state.accounts = action.accounts;
-    return state;
-  case 'REFRESH_TRANSACTIONS':
-    state.transactions = action.transactions;
-    return state;
-  default:
-    return state
-  }
-}
+// import ApolloClient from "apollo-boost";
+// import gql from "graphql-tag";
 
-let store = createStore(counter,{ transactions:[],accounts:[] } );
+// function counter(state = {}, action) {
+//   switch (action.type) {
+//   case 'REFRESH_ALL_ACCOUNT':
+//     state.accounts = action.accounts;
+//     return state;
+//   case 'REFRESH_TRANSACTIONS':
+//     state.transactions = action.transactions;
+//     return state;
+//   default:
+//     return state
+//   }
+// }
 
-function App(){
-  return (
-    <Provider store={store}>
-      <SPA />
-    </Provider>
-  );
-}
+// let store = createStore(counter,{ transactions:[],accounts:[] } );
 
-export default App;
+// const client = new ApolloClient({
+//   uri: "/api"
+// });
+
+// client
+//   .query({
+//     query: gql`
+//   {
+//     transactions {
+//       id,userId,amount,comment,accountId,credit,dateAndTime
+//     } 
+//   }
+// `
+//   })
+//   .then(result => {
+//     store.dispatch({ type: 'REFRESH_TRANSACTIONS',transactions:result.data.transactions })
+// })
+
+const App = ({}) => (
+  <SPA transactions={transactions}/>
+)
+
+
+const mapStateToProps = state => ({
+  transactions: state.transactions
+})
+
+export default connect(
+  mapStateToProps,
+  // mapDispatchToProps
+)(App)
