@@ -1,7 +1,8 @@
-import {React,Component} from 'react';
+import React from 'react';
 import { Provider, connect } from 'react-redux';
 import { createStore } from 'redux';
 import SPA from './components/container/SPA.jsx';
+// import { truncateSync } from 'fs';
 
 // import ApolloClient from "apollo-boost";
 // import gql from "graphql-tag";
@@ -39,7 +40,7 @@ import SPA from './components/container/SPA.jsx';
 //     store.dispatch({ type: 'REFRESH_TRANSACTIONS',transactions:result.data.transactions })
 // })
 
-const App = ({}) => (
+const App = ({transactions}) => (
   <SPA transactions={transactions}/>
 )
 

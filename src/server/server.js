@@ -1,7 +1,8 @@
 var env = require('node-env-file');
 const path = require('path');
 const express = require('express');
-var morgan = require('morgan')
+var morgan = require('morgan');
+var cors = require('cors');
 const webpack = require('webpack');
 import serverBootstrap from './init.js'; 
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -19,10 +20,11 @@ const sqlitePath = process.env.sqlite_path || ":memory:";
 
 const setupMiddleware = function(){
     const compiler = webpack(config);
-    app.use(webpackDevMiddleware(compiler, {
-        publicPath: config.output.publicPath
-    }));
-    app.use(morgan('combined')); // logging
+    // app.use(webpackDevMiddleware(compiler, {
+    //     publicPath: config.output.publicPath
+    // }));
+    app.options('*', cors());
+    app.use(morgan(':method :url :status :res[content-length] - :response-time ms')); // logging
 }
 
 const setupEndpoints = function(db){

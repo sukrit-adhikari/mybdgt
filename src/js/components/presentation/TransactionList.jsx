@@ -1,13 +1,12 @@
-import {Component} from 'react';
+import React from 'react';
 
-
-class TransactionList extends Component{
+const TransactionList = class TransactionList extends React.Component{
     constructor(props){
         super(props);
     }
     render(){
         return    (<div><h1>TL test</h1>
-            {transactions.map(
+            {this.props.transactions.map(
                 (item) => (
                 <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">

@@ -1,15 +1,15 @@
-import {React,Component} from 'react';
-import ReactDOM from 'react-dom';
-// import { Provider, connect } from 'react-redux';
+// import {React,Component} from 'react';
+import { Provider } from 'react-redux';
 // import { HashRouter } from 'react-router-dom'
 // import {Route,Switch} from 'react-router';
 // import SPA from './js/components/container/SPA/'
 // import App from './js/components/container/SPA.jsx';
-
 // import App from "./js/App.jsx";
-import Error404 from "./js/error-pages/Error.404.jsx";
-
+// import Error404 from "./js/error-pages/Error.404.jsx";
 // import { Provider, connect } from 'react-redux';
+
+import React from 'react';
+import {render} from 'react-dom';
 import { createStore } from 'redux';
 import App from './js/App.jsx';
 
@@ -32,7 +32,7 @@ function counter(state = {}, action) {
 let store = createStore(counter,{ transactions:[],accounts:[] } );
 
 const client = new ApolloClient({
-  uri: "/api"
+  uri: "http://localhost:8181/api"
 });
 
 client
@@ -49,8 +49,10 @@ client
     store.dispatch({ type: 'REFRESH_TRANSACTIONS',transactions:result.data.transactions })
 })
 
-ReactDOM.render(
-  <App/>
+render(
+  <Provider store={store}>
+  <App />
+  </Provider>
 //   (
 // <Provider store={store}>
 //     <HashRouter> 
@@ -65,3 +67,5 @@ ReactDOM.render(
     ,
     document.getElementById('root')
 );
+
+// export default {};

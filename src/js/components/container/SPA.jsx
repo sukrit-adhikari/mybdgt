@@ -1,8 +1,8 @@
-import {Component} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import TransactionList from '../presentation/TransactionList.jsx';
 
-class SPA extends Component {
+class SPA extends React.Component {
     constructor(props){
         super(props);
     }
@@ -10,17 +10,17 @@ class SPA extends Component {
         return (
             <div>
                 <h1>test SPA</h1>
-                <TransactionList transactions={this.state.transactions}></TransactionList>
+                <TransactionList transactions={this.props.transactions}></TransactionList>
             </div>
           )   
     }
 }
 
-const mapStateToProps = function(state) {
-    return {
-        transactions: state.transactions,
-        // loggedIn: state.auth.loggedIn
-    }
-}
+// const mapStateToProps = function(state) {
+//     return {
+//         transactions: state.transactions,
+//         // loggedIn: state.auth.loggedIn
+//     }
+// }
 
-export default connect(mapStateToProps)(SPA);
+export default SPA;
