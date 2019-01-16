@@ -2,11 +2,8 @@ var env = require('node-env-file');
 const path = require('path');
 const express = require('express');
 var morgan = require('morgan');
-var cors = require('cors');
-const webpack = require('webpack');
 import serverBootstrap from './init.js'; 
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import config from '../../webpack.config.js';
+
 import expressGraphql from './express-graphql.js';
 
 const app = express(),
@@ -17,15 +14,6 @@ const app = express(),
 env(path.resolve(DIST_DIR, '../../.env'));
 const PORT = process.env.PORT || 8080;
 const sqlitePath = process.env.sqlite_path || ":memory:";
-
-const setupMiddleware = function(){
-    const compiler = webpack(config);
-    // app.use(webpackDevMiddleware(compiler, {
-    //     publicPath: config.output.publicPath
-    // }));
-    app.options('*', cors());
-    app.use(morgan(':method :url :status :res[content-length] - :response-time ms')); // logging
-}
 
 const setupEndpoints = function(db){
     try{
@@ -39,7 +27,24 @@ const setupEndpoints = function(db){
     return null;
 }
 
+const setupMiddleware = function(){
+    // CORS for web to call service
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Methods", "*");
+        if (req.method === 'OPTIONS') {
+            res.sendStatus(200);
+        } else {
+            next();
+        }
+    });
+    app.use(morgan(':method :url :status :res[content-length] - :response-time ms')); // logging
+}
+
 const startApp = function(){
+    setupMiddleware();
+    setupEndpoints();
     app.listen(PORT, () => {
         console.log(`PORT ${PORT}`);
         console.log(`Index HTML ${HTML_FILE}`);
@@ -51,11 +56,21 @@ const startApp = function(){
 serverBootstrap
 .initDatabase(sqlitePath)
 .then(function(database){
-    setupMiddleware();
-    if(app.set('db',database.db)){
-        setupEndpoints();
-    }
+    app.set('db',database.db);
     startApp();
 }, function(err){
 
 });
+
+// Dead Code
+
+// var cors = require('cors');
+// const webpack = require('webpack');
+// import webpackDevMiddleware from 'webpack-dev-middleware';
+// import config from '../../webpack.config.js';
+
+// const compiler = webpack(config);
+// app.use(webpackDevMiddleware(compiler, {
+//     publicPath: config.output.publicPath
+// }));
+// app.options('*', cors());

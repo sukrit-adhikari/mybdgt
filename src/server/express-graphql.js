@@ -12,7 +12,6 @@ var root = {
     accounts: (args)=>{return account.all(db);}
 };
 
-
 export default  {
     applyApiMiddleware: function(app){
         db = app.get('db');
