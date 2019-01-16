@@ -15,7 +15,7 @@ const Error404 = class Error404 extends React.Component {
     return (
         <div>
         <Header />
-          <img src={NotFoundImage} alt={"404 Not Found Image"}/> 
+          <img className="img-fluid"  src={NotFoundImage} alt={"404 Not Found Image"}/> 
         </div>
     );
   }

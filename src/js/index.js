@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux';
-import Home from './components/page/Home.jsx';
+import Home from './pages/Home.jsx';
 import Error404 from './error-pages/Error.404.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -12,7 +12,7 @@ import { HashRouter } from 'react-router-dom'
 import {Route,Switch} from 'react-router';
 
 const initialState = { transactions:[],accounts:[] };
-
+ 
 const store = createStore(reducer,
   initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

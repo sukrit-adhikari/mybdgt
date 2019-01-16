@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../container/Header.jsx';
-import TransactionList from '../container/TransactionList.jsx';
+import Header from '../components/container/Header.jsx';
+import TransactionList from '../components/container/TransactionList.jsx';
 
 const Home = () => {
         return (<div>
