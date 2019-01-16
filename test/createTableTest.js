@@ -8,7 +8,7 @@ before(function () {
     db = new sqlite3.Database('');
 });
 
-describe('Create User Table', function () {
+describe('User Table', function () {
     it('should create table', function (done) {
         db.exec(tableModel.user(), function (err) {
             if (err) {
@@ -33,7 +33,7 @@ describe('Create User Table', function () {
     });
 });
 
-describe('Create Transaction Table', function () {
+describe('Transaction Table', function () {
     it('should create table', function (done) {
         db.exec(tableModel.transaction(), function (err) {
             if (err) {
@@ -44,9 +44,31 @@ describe('Create Transaction Table', function () {
     });
 });
 
-describe('Create Account Table', function () {
+describe('Account Table', function () {
     it('should create table', function (done) {
         db.exec(tableModel.account(), function (err) {
+            if (err) {
+                done(err);
+            }
+            done();
+        });
+    });
+});
+
+describe('Tag Table', function () {
+    it('should create table', function (done) {
+        db.exec(tableModel.tag(), function (err) {
+            if (err) {
+                done(err);
+            }
+            done();
+        });
+    });
+});
+
+describe('TagGroup Table', function () {
+    it('should create table', function (done) {
+        db.exec(tableModel.tagGroup(), function (err) {
             if (err) {
                 done(err);
             }

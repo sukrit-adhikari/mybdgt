@@ -10,7 +10,7 @@ describe('Server Initialization', function () {
         init.getDatabase(":memory:");
         done();
     });
-    it('initDatabase :memory:', function (done) {
+    it('initDatabase(":memory:")', function (done) {
         init.initDatabase(":memory:").then(function(res){
             done();
         },function(err){

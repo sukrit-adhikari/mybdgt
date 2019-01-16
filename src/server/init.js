@@ -23,6 +23,7 @@ module.exports = {
         const self = this;
         return new Promise(function (resolve, reject) {
             const db = self.getDatabase(sqlitePath);
+            
             // if (sqlitePath && !sqlitePath.startsWith(':') && fs.existsSync(sqlitePath)) {
             //     resolve(db);
             //     return;

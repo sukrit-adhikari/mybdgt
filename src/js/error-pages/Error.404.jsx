@@ -1,8 +1,9 @@
-import {React, Component } from "react";
+import React from "react";
+import Header from '../components/container/Header.jsx';
 
 import NotFoundImage from '../../assets/icons/404.jpg';
 
-const Error404 = class Error404 extends Component {
+const Error404 = class Error404 extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -12,7 +13,10 @@ const Error404 = class Error404 extends Component {
 
   render() {
     return (
-        <img src={NotFoundImage} alt={"404 Not Found Image"}/> 
+        <div>
+        <Header />
+          <img src={NotFoundImage} alt={"404 Not Found Image"}/> 
+        </div>
     );
   }
 }
