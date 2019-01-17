@@ -4,18 +4,23 @@ const assert = require('assert');
 
 let db = null;
 
-before(function () {
+beforeEach(function () {
     db = new sqlite3.Database('');
 });
 
 describe('User Table', function () {
-    it('should create table', function (done) {
+    it('should execute SQL query', function (done) {
         db.exec(tableModel.user(), function (err) {
             if (err) {
                 done(err);
             }
             done();
         });
+    });
+
+    it('createUserTable() test', function (done) {
+        tableModel.createUserTable(db)
+        .then(function(res){done()},function(err){done(err)})
     });
 
     it('insert [username] NULL should fail', function (done) {
@@ -34,13 +39,17 @@ describe('User Table', function () {
 });
 
 describe('Transaction Table', function () {
-    it('should create table', function (done) {
+    it('should execute SQL query', function (done) {
         db.exec(tableModel.transaction(), function (err) {
             if (err) {
                 done(err);
             }
             done();
         });
+    });
+    it('should create table with createTransactionTable()', function (done) {
+        tableModel.createTransactionTable(db)
+        .then(function(res){done()},function(err){done(err)})
     });
 });
 

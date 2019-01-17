@@ -8,5 +8,15 @@ module.exports = {
                 resolve(rows);
             });
         });
+    },
+    create: function(db,model){
+        return new Promise(function (resolve, reject) {
+            db.run("INSERT INTO user VALUES (?,?,?)", [null, null, null], function (err) {
+                if (err) {
+                    reject(err);
+                }
+               resolve({});
+            });
+        });
     }
 }
