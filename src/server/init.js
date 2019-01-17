@@ -4,6 +4,7 @@ const seed = require('./model/seed.js');
 // const fs = require('fs');
 
 let db = null;
+const memoryPath = ":memory:";
 
 module.exports = {
     createDatabase: function(sqlitePath){

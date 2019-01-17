@@ -7,11 +7,12 @@
     "test": "mocha",
     "testCov": "nyc mocha",
     "build:service:prod": "webpack --mode development --config webpack.server.config.js --watch",
-    "build:service:dev": "webpack --mode development --config webpack.server.config.js && npm run start:service",
+    "build:service:dev": "webpack --mode development --config webpack.server.config.js --watch",
     "build:web:prod": "webpack  --mode development --config webpack.config.js --watch",
     "build:web:dev": "webpack-dev-server  --mode development --config webpack.config.js --port 8080",
     "build:web": "webpack  --mode development --config webpack.config.js --watch",
-    "start:service": "node ./dist/server.js"
+    "start:service": "node ./dist/server.js",
+    "start:service:nodemon": "nodemon ./dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -50,6 +51,7 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
+    "bcrypt": "^3.0.3",
     "cors": "^2.8.5",
     "express-session": "^1.15.6",
     "node-env-file": "^0.1.8",

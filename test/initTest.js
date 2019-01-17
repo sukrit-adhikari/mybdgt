@@ -11,8 +11,8 @@ describe('Server Initialization', function () {
         done();
     });
     it('initDatabase(":memory:")', function (done) {
-        init.initDatabase(":memory:").then(function(res){
-            assert.equal(res.db,true);
+        init.initDatabase(":memory:")
+        .then(function(res){
             done();
         },function(err){
             done(err);
