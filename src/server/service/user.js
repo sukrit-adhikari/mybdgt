@@ -1,7 +1,6 @@
-import { GenericError,DuplicateUserNameError } from '../util/error/CreateNewUserError.js';
-import sqliteCode from '../util/constant/sqlite-status.js';
+import {UserSignupGenericError, UserLoginGenericError} from '../util/error/CreateNewUserError.js';
 import {PasswordUtil} from '../util/crypt/password.js';
-
+import {createUser,retrieveUsernamePassword} from '../database/user.js';
 class UserService {
     constructor(db) {
         if (!db.open) {
@@ -11,34 +10,32 @@ class UserService {
         this.passwordUtil = new PasswordUtil();
     }
 
-    createUser(user) {
+    signup(user) {
         const self = this;
         if(!user.username || !user.password){
-            return new GenericError();
+            return new UserSignupGenericError();
         }
-        return new Promise(function (resolve, reject) {
-            try {
-                const passwordHash = self.passwordUtil.hash(user.password);
-                self.db.run("INSERT into user(id,username,password) VALUES (?,?,?)", [
-                    null,
-                    user.username,
-                    passwordHash
-                ], function (err) {
-                    if (err) {
-                        console.error(err);
-                        if(err.code === sqliteCode.error.SQLITE_CONSTRAINT){
-                            resolve(new DuplicateUserNameError())
-                        }
-                        resolve(new GenericError());
-                    }
-                    var lastId = this.lastID;
-                    resolve({ id: lastId,username:user.username })
-                })
-            } catch (err) {
-                console.log(err);
-                resolve(new GenericError());
-            }
+        const passwordHash = self.passwordUtil.hash(user.password);
+        let userObject = Object.assign({},user);
+        userObject = Object.assign(userObject,{password:passwordHash});
+        return createUser(self.db,userObject);
+    }
+
+    login(user) {
+        const self = this;
+        if(!user.username || !user.password){
+            return new UserLoginGenericError();
+        }
+        const passwordHash = self.passwordUtil.hash(user.password);
+        retrieveUsernamePassword()
+        .then(function(res){
+            console.log(res);
+        },function(err){
+
         })
+        let userObject = Object.assign({},user);
+        userObject = Object.assign(userObject,{password:passwordHash});
+        return createUser(self.db,userObject);
     }
 }
 

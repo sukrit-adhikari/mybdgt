@@ -1,8 +1,13 @@
 import { GraphQLError } from 'graphql';
 
-class GenericError extends GraphQLError {
+class UserSignupGenericError extends GraphQLError {
   constructor(errors) {
     super('Error encountered while creating new User.');
+  }
+}
+class UserLoginGenericError extends GraphQLError {
+  constructor(errors) {
+    super('Error encountered while loggin in.');
   }
 }
 
@@ -18,4 +23,8 @@ class DuplicateUserNameError extends GraphQLError{
   }
 }
 
-export {GenericError,DuplicateUserNameError,PasswordHashError};
+export {UserLoginGenericError,
+  UserSignupGenericError,
+  DuplicateUserNameError,
+  PasswordHashError
+};
