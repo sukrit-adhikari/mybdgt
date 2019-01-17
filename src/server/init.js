@@ -11,7 +11,8 @@ module.exports = {
             if (err) {
                 throw err;
             }
-        });
+        })
+        return true;
     },
     getDatabase: function(sqlitePath){
         if(!db){

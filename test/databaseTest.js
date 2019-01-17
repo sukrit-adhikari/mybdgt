@@ -5,11 +5,11 @@ const assert = require('assert');
 let db = null;
 
 beforeEach(function () {
-    db = new sqlite3.Database('');
+    db = new sqlite3.Database(':memory:');
 });
 
 describe('User Table', function () {
-    it('should execute SQL query', function (done) {
+    it('should execute create table SQL query', function (done) {
         db.exec(tableModel.user(), function (err) {
             if (err) {
                 done(err);
@@ -39,7 +39,7 @@ describe('User Table', function () {
 });
 
 describe('Transaction Table', function () {
-    it('should execute SQL query', function (done) {
+    it('should execute create table SQL query', function (done) {
         db.exec(tableModel.transaction(), function (err) {
             if (err) {
                 done(err);
@@ -54,7 +54,7 @@ describe('Transaction Table', function () {
 });
 
 describe('Account Table', function () {
-    it('should create table', function (done) {
+    it('should execute create table SQL query', function (done) {
         db.exec(tableModel.account(), function (err) {
             if (err) {
                 done(err);
@@ -62,10 +62,15 @@ describe('Account Table', function () {
             done();
         });
     });
+
+    it('should create table with createAccountTable()', function (done) {
+        tableModel.createAccountTable(db)
+        .then(function(res){done()},function(err){done(err)})
+    });
 });
 
 describe('Tag Table', function () {
-    it('should create table', function (done) {
+    it('should execute create table SQL query', function (done) {
         db.exec(tableModel.tag(), function (err) {
             if (err) {
                 done(err);
@@ -73,15 +78,24 @@ describe('Tag Table', function () {
             done();
         });
     });
+
+    it('should create table with createTagTable()', function (done) {
+        tableModel.createTagTable(db)
+        .then(function(res){done()},function(err){done(err)})
+    });
 });
 
 describe('TagGroup Table', function () {
-    it('should create table', function (done) {
+    it('should execute create table SQL query', function (done) {
         db.exec(tableModel.tagGroup(), function (err) {
             if (err) {
                 done(err);
             }
             done();
         });
+    });
+    it('should create table with createTagGroupTable()', function (done) {
+        tableModel.createTagGroupTable(db)
+        .then(function(res){done()},function(err){done(err)})
     });
 });
