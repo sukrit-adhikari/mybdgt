@@ -5,7 +5,19 @@ const assert = require('assert');
 let db = null;
 
 beforeEach(function () {
-    db = new sqlite3.Database(':memory:');
+    return new Promise(function(resolve,reject){
+        db = new sqlite3.Database(':memory:',sqlite3.OPEN_READWRITE,(err)=>{
+            if(err){
+                reject(err);
+            }
+            resolve({});
+        });
+
+    });
+});
+
+afterEach(function(){
+    db=null;
 });
 
 describe('User Table', function () {

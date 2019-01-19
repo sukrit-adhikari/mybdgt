@@ -2,7 +2,7 @@ import { GraphQLError } from 'graphql';
 
 class UserSignupGenericError extends GraphQLError {
   constructor(errors) {
-    super('Error encountered while creating new User.');
+    super('Error encountered while creating a new User.');
   }
 }
 class UserLoginGenericError extends GraphQLError {

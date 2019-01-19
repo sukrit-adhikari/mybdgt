@@ -12,7 +12,7 @@
     "build:web:dev": "webpack-dev-server  --mode development --config webpack.config.js --port 8080",
     "build:web": "webpack  --mode development --config webpack.config.js --watch",
     "start:service": "node ./dist/server.js",
-    "start:service:nodemon": "nodemon ./dist/server.js"
+    "start:service:dev": "nodemon ./dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -51,8 +51,8 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "bcrypt": "^3.0.3",
     "cors": "^2.8.5",
+    "express-basic-auth": "^1.1.6",
     "express-session": "^1.15.6",
     "node-env-file": "^0.1.8",
     "passport": "^0.4.0",

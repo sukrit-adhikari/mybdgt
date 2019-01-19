@@ -3,6 +3,8 @@ const path = require('path');
 const express = require('express');
 var morgan = require('morgan');
 import serverBootstrap from './init.js'; 
+// const basicAuth = require('express-basic-auth');
+ 
 
 import expressGraphql from './express-graphql.js';
 
@@ -10,17 +12,21 @@ const app = express(),
     DIST_DIR = path.join('./dist', __dirname, 'web'),
     HTML_FILE = path.resolve(DIST_DIR, 'index.html');
     
+    // app.use(basicAuth({
+    //     challenge: true,
+    //     users: { 'admin': 'admin' }
+    // }))
 
 env(path.resolve(DIST_DIR, '../../.env'));
 const PORT = process.env.PORT || 8080;
 const sqlitePath = process.env.sqlite_path || ":memory:";
 
-const setupEndpoints = function(db){
+const setupEndpoints = function(){
     try{
         expressGraphql.applyApiMiddleware(app); // '/api'
-        app.get('*', (req, res) => {
-            res.sendFile(HTML_FILE);
-        });
+        // app.get('*', (req, res) => {
+        //     res.sendFile(HTML_FILE);
+        // });
     }catch(err){
         return err;
     } 

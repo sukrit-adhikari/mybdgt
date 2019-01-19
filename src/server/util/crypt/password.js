@@ -1,7 +1,7 @@
 import {PasswordHashError} from '../error/CreateNewUserError.js';
 
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+// const bcrypt = require('bcrypt');
+// const saltRounds = 10;
 
 class PasswordUtil{
     constructor(){
@@ -9,8 +9,9 @@ class PasswordUtil{
     }
     hash(plainText){
         try{
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hash = bcrypt.hashSync(plainText, salt);
+        // const salt = bcrypt.genSaltSync(saltRounds);
+        // const hash = bcrypt.hashSync(plainText, salt);
+        const hash = plainText;
         return hash;
         }catch(err){
             console.error(err);
@@ -18,15 +19,18 @@ class PasswordUtil{
         }
     }
     compare(plainText,hash){
-        return new Promise(function(resolve,reject){
-            bcrypt.compare(plainText, hash, function(err, res) {
-                if(err){
+        return plainText === hash;
+        // return new Promise(function(resolve,reject){
+        //     bcrypt.compare(plainText, hash, function(err, res) {
+        //         if(err){
 
-                }
-                resolve(res);
-            });
-        });
+        //         }
+        //         resolve(res);
+        //     });
+        // });
     }
 }
 
-export {PasswordUtil}
+const $passwordUtil = new PasswordUtil();
+
+export default $passwordUtil;

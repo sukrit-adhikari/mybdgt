@@ -1,13 +1,16 @@
 import {UserSignupGenericError, UserLoginGenericError} from '../util/error/CreateNewUserError.js';
-import {PasswordUtil} from '../util/crypt/password.js';
+import PasswordUtil from '../util/crypt/password.js';
 import {createUser,retrieveUsernamePassword} from '../database/user.js';
+import { GraphQLError } from 'graphql';
+
+import { PasswordUsernameMismatch} from '../util/error/LoginError.js';
+
 class UserService {
     constructor(db) {
         if (!db.open) {
             throw new Error("Database not valid.");
         }
         this.db = db;
-        this.passwordUtil = new PasswordUtil();
     }
 
     signup(user) {
@@ -15,28 +18,31 @@ class UserService {
         if(!user.username || !user.password){
             return new UserSignupGenericError();
         }
-        const passwordHash = self.passwordUtil.hash(user.password);
+        const passwordHash = self.PasswordUtil.hash(user.password);
         let userObject = Object.assign({},user);
-        userObject = Object.assign(userObject,{password:passwordHash});
+        userObject = Object.assign(userObject,{id:null,password:passwordHash});
         return createUser(self.db,userObject);
     }
 
-    login(user) {
+    login(username,password) {
         const self = this;
-        if(!user.username || !user.password){
-            return new UserLoginGenericError();
-        }
-        const passwordHash = self.passwordUtil.hash(user.password);
-        retrieveUsernamePassword()
-        .then(function(res){
-            console.log(res);
-        },function(err){
-
-        })
-        let userObject = Object.assign({},user);
-        userObject = Object.assign(userObject,{password:passwordHash});
-        return createUser(self.db,userObject);
+        return new Promise(function(resolve,reject){
+            if(!username || !password){
+                reject(new GraphQLError("No username or password provided."));
+            }
+            const usernameQuery = username;
+            retrieveUsernamePassword(self.db,usernameQuery)
+            .then(function(res){
+                if(res && res.password && PasswordUtil.compare(password,res.password)){
+                    resolve({id:res.id,username:username});
+                }
+                reject(new PasswordUsernameMismatch());
+            },function(err){
+                reject(err);
+            })
+        });
+       
     }
 }
-
+  
 export default UserService;

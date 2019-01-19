@@ -7,16 +7,20 @@ module.exports =
                 type Query {
                     transactions: [Transaction]
                     accounts: [Account]
+                    login(
+                        username: String!
+                        password: String!
+                    ): UserObject
                 }
                 type Mutation {
                     createUser(
                         username: String!
                         password: String!
-                    ): NewUser
+                    ): UserObject
                 }
-                type NewUser{
+                type UserObject{
                     id: Int!
-                    username: String!
+                    username: String
                 }
                 type User{
                     id: Int

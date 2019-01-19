@@ -11,7 +11,8 @@ let $userService = null;
 var root = {
     transactions: (args) => {return transaction.all(db)},
     accounts: (args)=>{return account.all(db);},
-    createUser: (args)=>{return $userService.signup(args)}
+    createUser: (args)=>{return $userService.signup(args)},
+    login: (args)=>{return $userService.login(args.username,args.password)}
 };
 
 export default  {

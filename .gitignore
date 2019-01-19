@@ -5,3 +5,5 @@ database.sqlite
 .nyc_output
 .vscode
 .env
+bdgt.sqlite
+.test.env

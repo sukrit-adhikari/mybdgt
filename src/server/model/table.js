@@ -17,7 +17,15 @@ module.exports = {
         return this.executeSQL(db,this.user());
     },
     transaction: function () {
-        return "CREATE TABLE `bdgt_transaction` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER NOT NULL ,`amount` NUMBER NOT NULL, `comment` TEXT NULL ,`account_id` INTEGER , `credit` INTEGER NOT NULL, `date_and_time` TEXT NOT NULL )"
+        return 'CREATE TABLE bdgt_transaction ('+
+        'id INTEGER PRIMARY KEY AUTOINCREMENT, '+
+        'user_id INTEGER NOT NULL , '+
+        'amount NUMBER NOT NULL, '+
+        'comment TEXT NULL ,`account_id` INTEGER , '+
+        'credit INTEGER NOT NULL, '+
+        'date_and_time TEXT NOT NULL '+
+        ')';
+        //        'FOREIGN KEY(user_id) REFERENCES user(id)'+
     },
     createTransactionTable: function (db) {
         return this.executeSQL(db,this.transaction());
@@ -29,7 +37,11 @@ module.exports = {
         return this.executeSQL(db,this.account());
     },
     tagGroup: function () {
-        return "CREATE TABLE `tag_group` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER NOT NULL , `display_name` TEXT NOT NULL, `tag_group_id` INTEGER)"
+        return 'CREATE TABLE `tag_group` '+
+                '( `id` INTEGER PRIMARY KEY AUTOINCREMENT, '+
+                '`user_id` INTEGER NOT NULL , '+
+                '`display_name` TEXT NOT NULL, '+
+                '`tag_group_id` INTEGER)';
     },
     createTagGroupTable: function (db) {
         return this.executeSQL(db,this.tagGroup());

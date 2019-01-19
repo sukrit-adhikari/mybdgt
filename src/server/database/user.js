@@ -28,18 +28,17 @@ const createUser = function (db,user) {
     })
 }
 
-const retrieveUsernamePassword = function (db,username) {
+const retrieveUsernamePassword = function(db,username){
     return new Promise(function (resolve, reject) {
         try {
-            db.get("SELECT id,username,password from user where username = $username", {
-                $username:username
-            }, function (err,row) {
+            db.get("SELECT id,username,password from user where username=? COLLATE NOCASE", [
+                username
+            ], function (err,row) {
                 if (err) {
                     console.error(err);
                     reject(new UserLoginGenericError());
-                }else{
-                    resolve(row);
                 }
+                resolve(row);
             });
         } catch (err) {
             console.log(err);
@@ -49,4 +48,4 @@ const retrieveUsernamePassword = function (db,username) {
 }
 
 
-export { createUser };
+export { createUser, retrieveUsernamePassword };
