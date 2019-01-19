@@ -1,60 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ApolloClient from "apollo-boost";
-import gql from "graphql-tag";
 import TransactionCard from '../presentation/TransactionCard.jsx';
+import transactionActionCreators from '../../action-creators/transaction.js';
 
-class TransactionList extends React.Component{
-    
-    constructor(props){
+class TransactionList extends React.Component {
+
+    constructor(props) {
         super(props);
     }
- 
-    componentWillMount(){
-        const client = new ApolloClient({
-            uri: "http://localhost:8181/api"
-          });
-          
-          client
-            .query({
-              query: gql`
-            {
-              transactions {
-                id,userId,amount,comment,accountId,credit,dateAndTime
-              } 
-            }
-          `
-            })
-            .then(result => {
-              store.dispatch({ type: 'REFRESH_TRANSACTIONS',transactions:result.data.transactions })
-          })
-    }
-    
-    render(){
-        return (<div>
-            {this.props.transactions.map((item) =>
-                <TransactionCard key={parseInt(item.id)} transaction={item}></TransactionCard>
-            )}
-        </div>)
+
+    componentDidMount() {
+        this.props.refreshTransactions();
     }
 
+    render() {
+        return (
+            <app-container>
+                {this.props.transactions.map((item) =>
+                    <TransactionCard key={parseInt(item.id)} transaction={item}></TransactionCard>
+                )}
+            </app-container>)
+    }
 }
 
-const mapStateToProps = (state) => (
-{
+const mapStateToProps = (state) => ({
     transactions: state.transactions,
     accounts: state.accounts
-})
+});
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         reload: (id) => {
-//             dispatch(toggleTodo(id))
-//       }
-//     }  
-// }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        refreshTransactions: () => dispatch(transactionActionCreators.refreshTransactions())
+    };
+};
 
 export default connect(
-    mapStateToProps
-    // state=>state
+    mapStateToProps,
+    mapDispatchToProps
 )(TransactionList);

@@ -1,9 +1,6 @@
-// export function transaction(){
-//     REFRESH_TRANSACTIONS:'REFRESH_TRANSACTIONS'
-// }
+const actions = {
+    //TRANSACTION
+    REFRESH_TRANSACTIONS:'REFRESH_TRANSACTIONS'
+}
 
-// export function refreshTransaction(){
-//     return {
-        
-//     }    
-// }
+export default actions;
