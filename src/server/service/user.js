@@ -3,7 +3,7 @@ import PasswordUtil from '../util/crypt/password.js';
 import {createUser,retrieveUsernamePassword} from '../database/user.js';
 import { GraphQLError } from 'graphql';
 
-import { PasswordUsernameMismatch} from '../util/error/LoginError.js';
+import {PasswordUsernameMismatch} from '../util/error/LoginError.js';
 
 class UserService {
     constructor(db) {
@@ -34,7 +34,7 @@ class UserService {
             retrieveUsernamePassword(self.db,usernameQuery)
             .then(function(res){
                 if(res && res.password && PasswordUtil.compare(password,res.password)){
-                    resolve({id:res.id,username:username});
+                    resolve({id:res.id,session:res.id,username:username});
                 }
                 reject(new PasswordUsernameMismatch());
             },function(err){

@@ -7,7 +7,9 @@ const Home = () => {
     return (<div>
         <Header></Header>
         <TimeFilter></TimeFilter>
-        <div className="mt-3"><TransactionList></TransactionList></div>
+        <div className="mt-3">
+            <TransactionList></TransactionList>
+        </div>
     </div>)
 }
 

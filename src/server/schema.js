@@ -10,13 +10,16 @@ module.exports =
                     login(
                         username: String!
                         password: String!
-                    ): UserObject
+                    ): Session!
                 }
                 type Mutation {
                     createUser(
                         username: String!
                         password: String!
                     ): UserObject
+                }
+                type Session{
+                    session: String!
                 }
                 type UserObject{
                     id: Int!
