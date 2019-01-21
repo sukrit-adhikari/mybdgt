@@ -1,6 +1,6 @@
 import initDatabase from './init-database.js';
 import morgan from 'morgan';
-import expressGraphql from './express-graphql.js';
+import express_Graphql from './express-graphql.js';
 
 class InitServer {
     constructor(app, port, sqlitePath, publicPath) {
@@ -40,7 +40,7 @@ class InitServer {
     setupEndpoints() {
         var self = this;
         try {
-            expressGraphql.applyApiMiddleware(self.app); // '/api'
+            express_Graphql.applyApiMiddleware(self.app); // '/api'
             // app.get('*', (req, res) => {
             //     res.sendFile(HTML_FILE);
             // });
@@ -73,7 +73,9 @@ class InitServer {
             console.log("Session ",self.session);
             if (self.session[req.get("session")] && self.session[req.get("session")].length) {
                 next();
-            } else {
+            } else if(req.url===process.env.dev_api || req.url===(process.env.dev_api+'?')){
+                next();
+            }else{
                 res.status(401).json({message:['Unauthorized Request.'],Location:"",Path:""});
             }
         });

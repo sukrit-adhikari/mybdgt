@@ -12,7 +12,8 @@ const transactionActionCreators = {
                 id,userId,amount,comment,accountId,credit,dateAndTime
               } 
             }
-          `,fetchPolicy:'network-only'
+          `,
+          fetchPolicy:'network-only',
         })
         .then(result => {
           result.data.transactions[0].amount = parseInt(Math.random()*1000);

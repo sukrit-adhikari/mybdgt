@@ -13,7 +13,7 @@ class TransactionList extends React.Component{
     }
 
     render(){
-        return (<div>
+        return (<app-container>
             <button onClick={this.props.refreshTransactions}>
                 REFRESH
             </button>
@@ -23,7 +23,7 @@ class TransactionList extends React.Component{
                 )
                 })
             }
-        </div>)
+        </app-container>)
     }
 }
 

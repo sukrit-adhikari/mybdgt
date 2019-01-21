@@ -6,4 +6,10 @@ const Header = function () {
     return (<NavBar></NavBar>)
 }
 
+const mapStateToProps = (state) =>{
+    return {
+        user: state.user,
+    }
+}
+
 export default connect()(Header);

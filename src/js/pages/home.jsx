@@ -7,9 +7,11 @@ const Home = () => {
     return (<app-page>
         <Header></Header>
         <TimeFilter></TimeFilter>
+        <page-section>
         <div className="mt-3">
             <TransactionList></TransactionList>
         </div>
+        </page-section>
     </app-page>)
 }
 

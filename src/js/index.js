@@ -24,6 +24,7 @@ function getCookie(name) {
   if (parts.length == 2) return parts.pop().split(";").shift();
 }
 const sessionCookie = getCookie('session');
+
 const apiClient = new AppApolloClient({
   headers: { "session": sessionCookie }
 });
@@ -41,20 +42,25 @@ apiClient.authOK()
     if(res){
       store.dispatch({type:actions.SET_AUTHENTICATION_STATUS,payload:{loggedIn:true}});
     }
-    ReactDOM.render(
-      <Provider store={store}>
+    try{
+      ReactDOM.render(
+        <Provider store={store}>
         <HashRouter>
           <Route path="/" render={() => (
             store.getState().user.auth.loggedIn ? (
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact path="/404" component={Error404} />                <Route path="*" component={Error404} />
+                <Route exact path="/404" component={Error404} />
+                <Route path="*" component={Error404} />
               </Switch>
             ) : (<Login />)
           )} />
         </HashRouter>
       </Provider>
       , document.getElementById('root'));
+    }catch(err){
+      console.log(err);
+    }
   }, (err) => {
-    document.getElementById('root').innerHTML = '<p style="color:red;">Unexpected error occured (Service might be down). Please try again.</p>';;
+    document.getElementById('root').innerHTML = '<p style="color:red;">Unexpected error occured (Service might be down). Please try again.<pre>'+JSON.stringify(err)+'</pre></p>';;
 });

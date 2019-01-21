@@ -1,7 +1,6 @@
 import transaction from './database/transaction.js';
 import account from './database/account.js';
 import schema from './schema.js';
-
 import UserService from './service/user.js';
 
 var graphqlHTTP = require('express-graphql');
@@ -12,7 +11,7 @@ var root = {
     transactions: (args) => {return transaction.all(db)},
     accounts: (args)=>{return account.all(db);},
     createUser: (args)=>{return $userService.signup(args)},
-    login: (args)=>{return $userService.login(args.username,args.password)}
+    login: (args)=>{return $userService.login(args.username,args.password)},
 };
 
 export default  {
@@ -22,7 +21,7 @@ export default  {
     },
     applyApiMiddleware: function(app){
         this.initialize(app);
-        app.use('/api', graphqlHTTP({
+        app.use(process.env.dev_api, graphqlHTTP({
             schema: schema.schema,
             rootValue: root, 
             graphiql: true
