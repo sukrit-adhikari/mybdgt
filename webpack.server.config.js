@@ -7,6 +7,9 @@ module.exports = {
     // server : ["webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000","./src/server/server.js"]
     server: './src/server/server.js',
   },
+  watchOptions: {
+    ignored: ['./src/js/']
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
