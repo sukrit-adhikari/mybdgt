@@ -3,30 +3,35 @@ import { connect } from 'react-redux';
 import TransactionCard from '../presentation/TransactionCard.jsx';
 import transactionActionCreators from '../../action-creators/transaction.js';
 
-class TransactionList extends React.Component {
-
-    constructor(props) {
+class TransactionList extends React.Component{
+    constructor(props){
         super(props);
     }
 
-    componentDidMount() {
+    componentDidMount(){
         this.props.refreshTransactions();
     }
 
-    render() {
-        return (
-            <app-container>
-                {this.props.transactions.map((item) =>
-                    <TransactionCard key={parseInt(item.id)} transaction={item}></TransactionCard>
-                )}
-            </app-container>)
+    render(){
+        return (<div>
+            <button onClick={this.props.refreshTransactions}>
+                REFRESH
+            </button>
+            {
+                this.props.transactions.map((item) =>{return (
+                    <TransactionCard key={item.id} transaction={item}></TransactionCard>
+                )
+                })
+            }
+        </div>)
     }
 }
 
-const mapStateToProps = (state) => ({
-    transactions: state.transactions,
-    accounts: state.accounts
-});
+const mapStateToProps = (state) => {
+    return {transactions: JSON.parse(JSON.stringify(state.transaction.transactions)),
+        accounts: state.account.accounts
+    }
+}
 
 const mapDispatchToProps = (dispatch) => {
     return {

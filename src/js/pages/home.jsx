@@ -4,13 +4,13 @@ import TransactionList from '../components/container/TransactionList.jsx';
 import TimeFilter from '../components/container/TimeFilter.jsx';
 
 const Home = () => {
-    return (<div>
+    return (<app-page>
         <Header></Header>
         <TimeFilter></TimeFilter>
         <div className="mt-3">
             <TransactionList></TransactionList>
         </div>
-    </div>)
+    </app-page>)
 }
 
 export default Home;

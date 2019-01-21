@@ -74,8 +74,7 @@ class InitServer {
             if (self.session[req.get("session")] && self.session[req.get("session")].length) {
                 next();
             } else {
-                next();
-                // res.status(401).json({errors:['Unauthorized Request.']});
+                res.status(401).json({message:['Unauthorized Request.'],Location:"",Path:""});
             }
         });
     }

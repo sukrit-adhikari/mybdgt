@@ -1,5 +1,5 @@
 const assert = require('assert');
-const init = require('../src/server/init.js');
+const init = require('../src/server/init-database.js');
 
 describe('Server Initialization', function () {
     it('Create Database', function (done) {

@@ -2,55 +2,59 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom'
-import {Route,Switch} from 'react-router';
+import { Route, Switch } from 'react-router';
 //REDUX
-import {createStore,applyMiddleware} from 'redux';
+import { createStore, applyMiddleware , compose} from 'redux';
 //REACT-REDUX
 import { Provider } from 'react-redux';
 //REDUX MIDDLEWARE
 import thunk from 'redux-thunk';
 //APPLICATION
 import reducer from './reducers/index.js';
-import apolloClientCreator from './graphql-client/client.js';
+import AppApolloClient from './graphql-client/client.js';
+import actions from './actions/index.js'
 //APPLICATION PAGES
 import Home from './pages/home.jsx';
 import Login from './pages/login.jsx';
 import Error404 from './error-pages/Error.404.jsx';
 
-const initialState = { 
-  user:{
-    loggedIn : false,
-    loggingIn: true,
-    userObject:{
-    }
-  },
-  transactions:[],
-  accounts:[]
-};
-
-const apiClient = apolloClientCreator({
-  onError:(err)=>{
-    if(err.networkError){
-      console.log(err);
-    }
-  },
-  headers:{"session":"1"}
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+const sessionCookie = getCookie('session');
+const apiClient = new AppApolloClient({
+  headers: { "session": sessionCookie }
 });
 
 const store = createStore(
   reducer,
-  initialState,
-  applyMiddleware(thunk.withExtraArgument(apiClient))
+  compose(
+    applyMiddleware(thunk.withExtraArgument(apiClient)),
+    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
+  )
 );
 
-ReactDOM.render( 
-  <Provider store={store}>
-    <HashRouter>
-      <Switch>
-        <Route exact path="/login" component={Login}/>
-        <Route exact path="/" component={Home}/>
-        <Route path="*" component={Error404}/>
-      </Switch>
-    </HashRouter>
-  </Provider>
-,document.getElementById('root'));
+apiClient.authOK()
+  .then((res) => {
+    if(res){
+      store.dispatch({type:actions.SET_AUTHENTICATION_STATUS,payload:{loggedIn:true}});
+    }
+    ReactDOM.render(
+      <Provider store={store}>
+        <HashRouter>
+          <Route path="/" render={() => (
+            store.getState().user.auth.loggedIn ? (
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/404" component={Error404} />                <Route path="*" component={Error404} />
+              </Switch>
+            ) : (<Login />)
+          )} />
+        </HashRouter>
+      </Provider>
+      , document.getElementById('root'));
+  }, (err) => {
+    document.getElementById('root').innerHTML = '<p style="color:red;">Unexpected error occured (Service might be down). Please try again.</p>';;
+});
