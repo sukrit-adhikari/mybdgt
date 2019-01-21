@@ -1,27 +1,24 @@
 import actions from '../actions/index.js';
-import gql from "graphql-tag";
 
 const authActionCreators = {
-  attemptLogin: function (username,password) {
+  attemptLogin: function (username, password) {
     return (dispatch, getState, apiClient) => {
-        apiClient
-        .query({
-          query: gql`
-          query{
-            login(
-              username:"${username}"
-              password:"${password}"
-            ){
-              session
-            }
+      fetch('http://localhost:8181/login', {
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({operationName: null,
+          query:`{login(username:\"${username}\", password: \"${password}\") {session}}`})
+      })
+      .then(response => response.json(),(err)=>{throw err;})
+      .then(json => {
+          if(json && json.data && json.data.login){
+            document.cookie = "session="+json.data.login.session
+            location.reload();
           }
-          `,
-          fetchPolicy:'network-only',
-        })
-        .then(result => {
-          const session = result.data.session;
-          dispatch({ type: actions.SET_AUTH_COOKIE, payload: { session: session } });
-        });
+          //dispatch({ type: actions.SET_AUTHENTICATION_STATUS, payload: { loggedIn: true } });
+      });
     };
   }
 }

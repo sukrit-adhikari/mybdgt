@@ -30,11 +30,8 @@ class AppApolloClient extends ApolloClient {
                 .query({
                     query: gql`
                     {
-                        login(
-                          username:"admin"
-                          password:"admin"
-                        ){
-                          session
+                        transactions{
+                          id
                         }
                       }
                 `

@@ -8,7 +8,7 @@ class InitServer {
         this.port = port;
         this.sqlitePath = sqlitePath;
         this.publicPath = publicPath;
-        this.session = { "1": "1" };
+        this.session = {};
     }
 
     init() {
@@ -20,7 +20,7 @@ class InitServer {
                 self.startApp();
             }, function (err) {
                 console.log(err);
-                console.error("Exiting from the application.");
+                console.error(new Date(),"Exiting from the application.");
                 process.exit(1);
             });
     }
@@ -54,31 +54,14 @@ class InitServer {
         this.app.use(function (req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Session");
-            res.header("Access-Control-Allow-Methods", "*");
+            res.header("Access-Control-Allow-Methods", "GET POST OPTIONS");
             if (req.method === 'OPTIONS') {
                 res.sendStatus(200);
             } else {
                 next();
             }
         });
-        this.unsecureAuthenticationMiddleware();
         this.app.use(morgan(':method :url :status :res[content-length] - :response-time ms')); // logging
-    }
-
-    //TODO Refactor
-    unsecureAuthenticationMiddleware() {
-        var self = this;
-        self.app.set('session',Object.assign({},self.session));
-        this.app.use(function (req, res, next) {
-            console.log("Session ",self.session);
-            if (self.session[req.get("session")] && self.session[req.get("session")].length) {
-                next();
-            } else if(req.url===process.env.dev_api || req.url===(process.env.dev_api+'?')){
-                next();
-            }else{
-                res.status(401).json({message:['Unauthorized Request.'],Location:"",Path:""});
-            }
-        });
     }
 }
 

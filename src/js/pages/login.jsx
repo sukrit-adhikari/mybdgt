@@ -6,45 +6,40 @@ import authActionCreators from '../action-creators/user.js';
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {username:"",password:""};
   }
   
-  componentDidMount(){
-    this.props.dispatch(authActionCreators.attemptLogin("admin","admin"));
+  attemptLogin(){
+    this.props.attemptLogin(this.state.username,this.state.password);
+  }
+
+  handleChangeUsername(event){
+    this.setState({username:event.target.value})
+  }
+
+  handleChangePassword(event){
+    this.setState({password:event.target.value})
   }
 
   render() {
     return (<app-page>
       <Header></Header>
-      <ul className="nav nav-tabs">
-        <li className="nav-item">
-          <a className="nav-link active" href="#">Active</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Link</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Link</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link disabled" href="#">Disabled</a>
-        </li>
-      </ul>
       <div className="container mt-3">
         <div className="row">
-          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <form>
+          <div className="col-xs-12 col-sm-12 col-md-12 offset-lg-3 col-lg-6">
+            <app-form onKeyDown={({key})=>{if(key==="Enter"){this.attemptLogin()}}}>
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1">Email address</label>
-                <input value="admin" type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                <input onChange={this.handleChangeUsername.bind(this)} value={this.state.username} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="Username" placeholder="Username" />
               </div>
               <div className="form-group">
                 <label htmlFor="exampleInputPassword1">Password</label>
-                <input value="admin" type="password" className="form-control" name="password" id="password" placeholder="Password" />
+                <input onChange={this.handleChangePassword.bind(this)} value={this.state.password} type="password" className="form-control" id="password" placeholder="Password" />
               </div>
               <div className="form-check">
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button onClick={this.attemptLogin.bind(this)} type="button" className="btn btn-primary">Log In</button>
               </div>
-            </form>
+            </app-form>
           </div>
         </div>
       </div>
@@ -58,7 +53,14 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
+const mapStateToProps = (state)=>{
+  return {
+    username:"",
+    password:""
+  }
+}
+
 export default connect(
-  // mapStateToProps,
+  mapStateToProps,
   mapDispatchToProps
 )(Login);

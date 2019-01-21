@@ -1,3 +1,4 @@
+import randomString from 'randomstring';
 import {UserSignupGenericError, UserLoginGenericError} from '../util/error/CreateNewUserError.js';
 import PasswordUtil from '../util/crypt/password.js';
 import {createUser,retrieveUsernamePassword} from '../database/user.js';
@@ -24,7 +25,7 @@ class UserService {
         return createUser(self.db,userObject);
     }
 
-    login(username,password) {
+    login(username,password,context) {
         const self = this;
         return new Promise(function(resolve,reject){
             if(!username || !password){
@@ -34,7 +35,9 @@ class UserService {
             retrieveUsernamePassword(self.db,usernameQuery)
             .then(function(res){
                 if(res && res.password && PasswordUtil.compare(password,res.password)){
-                    resolve({id:res.id,session:res.id,username:username});
+                    const newSession = randomString.generate({ length: 32, charset: 'alphabetic' });
+                    context.addSession(newSession, res.id);
+                    resolve({id:res.id,session:newSession,username:username});
                 }
                 reject(new PasswordUsernameMismatch());
             },function(err){

@@ -39,15 +39,12 @@ const store = createStore(
 
 apiClient.authOK()
   .then((res) => {
-    if(res){
-      store.dispatch({type:actions.SET_AUTHENTICATION_STATUS,payload:{loggedIn:true}});
-    }
     try{
       ReactDOM.render(
         <Provider store={store}>
         <HashRouter>
           <Route path="/" render={() => (
-            store.getState().user.auth.loggedIn ? (
+            res ? (
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/404" component={Error404} />
@@ -62,5 +59,5 @@ apiClient.authOK()
       console.log(err);
     }
   }, (err) => {
-    document.getElementById('root').innerHTML = '<p style="color:red;">Unexpected error occured (Service might be down). Please try again.<pre>'+JSON.stringify(err)+'</pre></p>';;
+    document.getElementById('root').innerHTML = '<p style="color:red;">Unexpected error occured (Service might be down). Please try again.<br/>'+JSON.stringify(err)+'</p>';;
 });
