@@ -62,7 +62,7 @@ export default {
                         newSession[item] = oldSession[item];
                     }
                 });
-                console.log("Session",deletedSessionKey,"removed.");
+                console.log("Session",deletedSessionKey,"removed."); 
                 app.set(STR_SESSION,newSession);
                 send401(res);
             }else if (req.url === '/login' && req.method === 'POST') {
