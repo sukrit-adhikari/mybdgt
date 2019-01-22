@@ -1,5 +1,5 @@
 import actions from '../actions/index.js';
-import util from '../util.js';
+import util from '../helpers/util.js';
 
 const transactionActionCreators = {
   refreshTransactions: function () {

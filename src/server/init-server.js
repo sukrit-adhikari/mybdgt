@@ -40,7 +40,7 @@ class InitServer {
     setupEndpoints() {
         var self = this;
         try {
-            express_Graphql.applyApiMiddleware(self.app); // '/api'
+            express_Graphql.applyApiMiddleware(self.app);
             // app.get('*', (req, res) => {
             //     res.sendFile(HTML_FILE);
             // });

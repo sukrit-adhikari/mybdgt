@@ -7,6 +7,9 @@ var graphqlHTTP = require('express-graphql');
 let db = null;
 let $userService = null;
 
+
+const STR_SESSION = 'session';
+
 var root = {
     transactions: (args) => { return transaction.all(db) },
     accounts: (args) => { return account.all(db); },
@@ -34,18 +37,35 @@ export default {
                     entry[key] = value;
                     const newSession = Object.assign({}, oldSession, entry);
                     app.set('session', newSession);
+                },
+                removeSession: (key) => {
+                    console.log(key);
                 }
             }
         }));
     },
     unsecureAuthenticationMiddleware(app) {
         var self = this;
-        const STR_SESSION = 'session';
-        app.set(STR_SESSION, {});
+        const send401 = (res) =>{res.status(401).json({ message: ['Unauthorized Request.'], Location: "", Path: "" });};
         app.use(function (req, res, next) {
             const session = app.get(STR_SESSION);
-            // console.log("session", session,"header-session",req.get("session"));
-            if (req.url === '/login' && req.method === 'POST') {
+            if(req.url === '/logout' && req.method === 'POST'){
+                console.log(req.url,"123123123");
+                const newSession = {};
+                const deletedSessionKey = null;
+                const oldSession = app.get(STR_SESSION);
+                Object.keys(app.get(STR_SESSION)).map((item)=>{
+                    if(req.get(STR_SESSION) === item){
+                        deletedSessionKey = item;                        
+                        // REMOVE
+                    }else{
+                        newSession[item] = oldSession[item];
+                    }
+                });
+                console.log("Session",deletedSessionKey,"removed.");
+                app.set(STR_SESSION,newSession);
+                send401(res);
+            }else if (req.url === '/login' && req.method === 'POST') {
                 req.url = '/api'; // Redirect to GQL
                 console.log("Login Attempt.", "Redirect to GQL");
                 next();
@@ -56,7 +76,7 @@ export default {
                 next();
             } else {
                 console.log("Unauthenticated Request.");
-                res.status(401).json({ message: ['Unauthorized Request.'], Location: "", Path: "" });
+                send401(res);                
             }
         });
     }

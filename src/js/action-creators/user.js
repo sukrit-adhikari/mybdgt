@@ -1,4 +1,5 @@
 import actions from '../actions/index.js';
+import util from '../helpers/util.js';
 
 const authActionCreators = {
   attemptLogin: function (username, password) {
@@ -28,14 +29,29 @@ const authActionCreators = {
               type: actions.SET_AUTHENTICATION_STATUS, payload:
                 {errorMessages:[], loggedIn: true, loggingIn: false , session:session}
             });
-            // window.location='/';
           }
         });
     };
   },
-  updateSession: function (session) {
+  updateAuthStatus: function (payload) {
     return (dispatch, getState) => {
-      dispatch({ type: actions.SET_AUTHENTICATION_STATUS, payload: { session: session } });
+      dispatch({ type: actions.SET_AUTHENTICATION_STATUS, payload: payload });
+    };
+  },
+  attemptLogout: function () {
+    return (dispatch, getState, apiClient) => {
+      const removedSession = util.getCookie("session");
+      document.cookie = "";
+      dispatch({ type: actions.SET_AUTHENTICATION_STATUS, payload: { loggingOut: true } });
+      fetch('http://localhost:8181/logout', {
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+          "session": removedSession
+        },
+        body: JSON.stringify({})
+      })
+      .then(response => window.location='/', (err) => {window.location ='/'});
     };
   },
 }

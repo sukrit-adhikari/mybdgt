@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom'
-import { Route, Switch } from 'react-router';
 //REDUX
 import { createStore, applyMiddleware , compose} from 'redux';
 //REACT-REDUX
@@ -13,10 +12,6 @@ import thunk from 'redux-thunk';
 import reducer from './reducers/index.js';
 import AppApolloClient from './graphql-client/client.js';
 import AppRouter from './app-router.js';
-//APPLICATION PAGES
-import Home from './pages/home.jsx';
-import Login from './pages/login.jsx';
-import Error404 from './error-pages/Error.404.jsx';
 
 function getCookie(name) {
   var value = "; " + document.cookie;
