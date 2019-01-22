@@ -16,14 +16,19 @@ const authActionCreators = {
       })
         .then(response => response.json(), (err) => { throw err; })
         .then(json => {
-          if (json && json.data && json.data.login) {
+          if(json.errors){
+            dispatch({
+              type: actions.SET_AUTHENTICATION_STATUS, payload:
+                {errorMessages:json.errors.map(item=>item.message), loggedIn: false, loggingIn: false , session:''}
+            });
+          }else if (json && json.data && json.data.login) {
             const session = json.data.login.session;
             document.cookie = "session=" + session
             dispatch({
               type: actions.SET_AUTHENTICATION_STATUS, payload:
-                { loggedIn: true,loggingIn: false , session:session}
+                {errorMessages:[], loggedIn: true, loggingIn: false , session:session}
             });
-            window.location = '/';
+            // window.location='/';
           }
         });
     };

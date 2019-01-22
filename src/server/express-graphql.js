@@ -15,8 +15,13 @@ var root = {
 };
 
 export default {
+    initializeServices: function (app) {
+        db = app.get('db');
+        $userService = new UserService(db);
+    },
+
     applyApiMiddleware: function (app) {
-        this.initialize(app);
+        this.initializeServices(app);
         this.unsecureAuthenticationMiddleware(app);
         app.use('/api', graphqlHTTP({
             schema: schema.schema,
@@ -33,10 +38,6 @@ export default {
             }
         }));
     },
-    initialize: function (app) {
-        db = app.get('db');
-        $userService = new UserService(db);
-    },
     unsecureAuthenticationMiddleware(app) {
         var self = this;
         const STR_SESSION = 'session';
@@ -44,7 +45,6 @@ export default {
         app.use(function (req, res, next) {
             const session = app.get(STR_SESSION);
             // console.log("session", session,"header-session",req.get("session"));
-            console.log(req.url);
             if (req.url === '/login' && req.method === 'POST') {
                 req.url = '/api'; // Redirect to GQL
                 console.log("Login Attempt.", "Redirect to GQL");

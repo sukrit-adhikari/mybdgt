@@ -12,7 +12,7 @@ import thunk from 'redux-thunk';
 //APPLICATION
 import reducer from './reducers/index.js';
 import AppApolloClient from './graphql-client/client.js';
-import actions from './actions/index.js'
+import AppRouter from './app-router.js';
 //APPLICATION PAGES
 import Home from './pages/home.jsx';
 import Login from './pages/login.jsx';
@@ -42,18 +42,9 @@ apiClient.authOK()
     try{
       ReactDOM.render(
         <Provider store={store}>
-        <HashRouter>
-          <Route path="/" render={() => (
-            res ? (
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/404" component={Error404} />
-                <Route exact path="/login" component={Login} />
-                <Route path="*" component={Error404} />
-              </Switch>
-            ) : (<Login />)
-          )} />
-        </HashRouter>
+          <HashRouter>
+            <AppRouter loginCheck={res}></AppRouter>
+          </HashRouter>
       </Provider>
       , document.getElementById('root'));
     }catch(err){

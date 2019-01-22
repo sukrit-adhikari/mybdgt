@@ -7,13 +7,13 @@ class Header extends React.Component{
         super(props);
     }
     render(){
-        return (<NavBar></NavBar>)
+        return (<app-container><NavBar></NavBar></app-container>)
     }
 }
 
 const mapStateToProps = (state) =>{
     return {
-        user: state.user,
+        loggedIn: state.user.auth.loggedIn
     }
 }
 

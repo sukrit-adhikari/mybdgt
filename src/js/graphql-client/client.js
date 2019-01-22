@@ -10,6 +10,7 @@ class AppApolloClient extends ApolloClient {
             uri: "http://localhost:8181/api",
         }, options))
     }
+
     // is authenticated
     authOK() {
         var self = this;
