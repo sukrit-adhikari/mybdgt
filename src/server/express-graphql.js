@@ -47,17 +47,17 @@ export default {
     unsecureAuthenticationMiddleware(app) {
         var self = this;
         const send401 = (res) =>{res.status(401).json({ message: ['Unauthorized Request.'], Location: "", Path: "" });};
+        app.set(STR_SESSION,{});
         app.use(function (req, res, next) {
             const session = app.get(STR_SESSION);
             if(req.url === '/logout' && req.method === 'POST'){
-                console.log(req.url,"123123123");
+                console.log("Loggin Out.");
                 const newSession = {};
-                const deletedSessionKey = null;
+                let deletedSessionKey = null;
                 const oldSession = app.get(STR_SESSION);
                 Object.keys(app.get(STR_SESSION)).map((item)=>{
                     if(req.get(STR_SESSION) === item){
-                        deletedSessionKey = item;                        
-                        // REMOVE
+                        deletedSessionKey = item; // REMOVE
                     }else{
                         newSession[item] = oldSession[item];
                     }
