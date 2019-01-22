@@ -10,7 +10,7 @@
     "build:service:dev": "webpack --mode development --config webpack.server.config.js --watch ",
     "build:web:prod": "webpack  --mode development --config webpack.config.js --watch",
     "build:web:dev": "webpack-dev-server  --mode development --config webpack.config.js --port 8080",
-    "start:service:dev": "nodemon --watch ./dist/server.js ./dist/server.js",
+    "start:service:dev": "nodemon ./dist/server.js",
     "start:service:prod": "node ./dist/server.js"
   },
   "keywords": [],

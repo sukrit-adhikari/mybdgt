@@ -6,28 +6,28 @@ import authActionCreators from '../action-creators/user.js';
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {username:"",password:""};
-  }
-  
-  attemptLogin(){
-    this.props.attemptLogin(this.state.username,this.state.password);
+    this.state = { username: "", password: "" };
   }
 
-  handleChangeUsername(event){
-    this.setState({username:event.target.value})
+  attemptLogin() {
+    this.props.attemptLogin(this.state.username, this.state.password);
   }
 
-  handleChangePassword(event){
-    this.setState({password:event.target.value})
+  handleChangeUsername(event) {
+    this.setState({ username: event.target.value })
+  }
+
+  handleChangePassword(event) {
+    this.setState({ password: event.target.value })
   }
 
   render() {
     return (<app-page>
       <Header></Header>
-      <div className="container mt-3">
+      {true || !this.props.session ? <div className="container mt-3">
         <div className="row">
           <div className="col-xs-12 col-sm-12 col-md-12 offset-lg-3 col-lg-6">
-            <app-form onKeyDown={({key})=>{if(key==="Enter"){this.attemptLogin()}}}>
+            <app-form onKeyDown={({ key }) => { if (key === "Enter") { this.attemptLogin() } }}>
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1">Email address</label>
                 <input onChange={this.handleChangeUsername.bind(this)} value={this.state.username} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="Username" placeholder="Username" />
@@ -37,26 +37,29 @@ class Login extends React.Component {
                 <input onChange={this.handleChangePassword.bind(this)} value={this.state.password} type="password" className="form-control" id="password" placeholder="Password" />
               </div>
               <div className="form-check">
-                <button onClick={this.attemptLogin.bind(this)} type="button" className="btn btn-primary">Log In</button>
+                <button disabled={this.props.loggingIn} onClick={this.attemptLogin.bind(this)} type="button" className="btn btn-primary">Log In</button>
               </div>
             </app-form>
           </div>
         </div>
-      </div>
+      </div> : <div>Sign Out</div>}
     </app-page>)
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      attemptLogin: (username,password) => dispatch(authActionCreators.attemptLogin(username,password))
+    attemptLogin: (username, password) => dispatch(authActionCreators.attemptLogin(username, password))
   };
 };
 
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state) => {
   return {
-    username:"",
-    password:""
+    username: "",
+    password: "",
+    loggingIn: state.user.auth.loggingIn,
+    loggedIn: state.user.auth.loggedIn,
+    session:state.user.auth.session
   }
 }
 

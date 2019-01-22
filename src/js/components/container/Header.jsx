@@ -2,8 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NavBar from '../presentation/NavBar.jsx';
 
-const Header = function () {
-    return (<NavBar></NavBar>)
+class Header extends React.Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        return (<NavBar></NavBar>)
+    }
 }
 
 const mapStateToProps = (state) =>{
@@ -12,4 +17,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect()(Header);
+export default connect(mapStateToProps)(Header);

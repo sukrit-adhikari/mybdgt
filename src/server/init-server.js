@@ -27,7 +27,7 @@ class InitServer {
 
     startApp() {
         const self = this;
-        this.setupMiddleware();
+        this.setupMiddleware(); 
         this.setupEndpoints();
         this.app.listen(self.port, () => {
             console.log(`PORT ${self.port}`);

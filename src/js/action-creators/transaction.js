@@ -1,24 +1,27 @@
 import actions from '../actions/index.js';
-import gql from "graphql-tag";
+import util from '../util.js';
 
 const transactionActionCreators = {
   refreshTransactions: function () {
     return (dispatch, getState, apiClient) => {
-        apiClient
-        .query({
-          query: gql`
-            {
-              transactions {
-                id,userId,amount,comment,accountId,credit,dateAndTime
-              } 
-            }
-          `,
-          fetchPolicy:'network-only',
-        })
-        .then(result => {
-          result.data.transactions[0].amount = parseInt(Math.random()*1000);
-          dispatch({ type: actions.REFRESH_TRANSACTIONS, payload: { transactions: result.data.transactions } });
-        });
+      fetch('http://localhost:8181/api', {
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+          "session":util.getCookie('session')
+        },
+        body: JSON.stringify({operationName: null,
+          query:`{
+            transactions {
+              id,userId,amount,comment,accountId,credit,dateAndTime
+            } 
+          }`})
+      })
+      .then(response => response.json(),(err)=>{return err;})
+      .then(result => {
+        result.data.transactions[0].amount = parseInt(Math.random()*1000);
+        dispatch({ type: actions.REFRESH_TRANSACTIONS, payload: { transactions: result.data.transactions } });
+      });
     };
   }
 }

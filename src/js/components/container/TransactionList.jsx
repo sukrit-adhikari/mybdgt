@@ -9,7 +9,9 @@ class TransactionList extends React.Component{
     }
 
     componentDidMount(){
-        this.props.refreshTransactions();
+        if(!this.props.transactions.length){
+            this.props.refreshTransactions();
+        }
     }
 
     render(){

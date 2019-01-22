@@ -48,6 +48,7 @@ apiClient.authOK()
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/404" component={Error404} />
+                <Route exact path="/login" component={Login} />
                 <Route path="*" component={Error404} />
               </Switch>
             ) : (<Login />)

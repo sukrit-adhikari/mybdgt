@@ -44,14 +44,15 @@ export default {
         app.use(function (req, res, next) {
             const session = app.get(STR_SESSION);
             // console.log("session", session,"header-session",req.get("session"));
-            if (req.url === process.env.dev_api || req.url === (process.env.dev_api + '?')) {
-                next();
-            } else if (req.url === '/login' && req.method === 'POST') {
+            console.log(req.url);
+            if (req.url === '/login' && req.method === 'POST') {
                 req.url = '/api'; // Redirect to GQL
                 console.log("Login Attempt.", "Redirect to GQL");
                 next();
             } else if (Object.keys(session).includes(req.get(STR_SESSION))) {
                 console.log("Authenticated Request -> GQL");
+                next();
+            } else if (req.url === '/api/dev' || req.url === '/api/dev?') {
                 next();
             } else {
                 console.log("Unauthenticated Request.");
