@@ -11,7 +11,7 @@ class FilterBar extends React.Component {
                 Dropdown button
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a className="dropdown-item" href="#">Action</a>
+                <a className="dropdown-item" href="#/add/transaction">Add</a>
                 <a className="dropdown-item" href="#">Another action</a>
                 <a className="dropdown-item" href="#">Something else here</a>
             </div>

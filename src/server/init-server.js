@@ -8,7 +8,6 @@ class InitServer {
         this.port = port;
         this.sqlitePath = sqlitePath;
         this.publicPath = publicPath;
-        this.session = {};
     }
 
     init() {
@@ -42,7 +41,7 @@ class InitServer {
         try {
             express_Graphql.applyApiMiddleware(self.app);
             // app.get('*', (req, res) => {
-            //     res.sendFile(HTML_FILE);
+                // res.sendFile(HTML_FILE);
             // });
         } catch (err) {
             throw err;

@@ -3,7 +3,7 @@ import Header from '../components/container/Header.jsx';
 
 import NotFoundImage from '../../assets/icons/404.jpg';
 
-const Error404 = class Error404 extends React.Component {
+const Error404Page = class Error404 extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -21,4 +21,4 @@ const Error404 = class Error404 extends React.Component {
   }
 }
 
-export default Error404;
+export default Error404Page;
