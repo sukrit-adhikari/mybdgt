@@ -10,29 +10,18 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 //APPLICATION
 import reducer from './reducers/index.js';
-import AppApolloClient from './graphql-client/client.js';
 import AppRouter from './app-router.js';
-
-function getCookie(name) {
-  var value = "; " + document.cookie;
-  var parts = value.split("; " + name + "=");
-  if (parts.length == 2) return parts.pop().split(";").shift();
-}
-const sessionCookie = getCookie('session');
-
-const apiClient = new AppApolloClient({
-  headers: { "session": sessionCookie }
-});
+import AppClient from './graphql-client/client.js';
 
 const store = createStore(
   reducer,
   compose(
-    applyMiddleware(thunk.withExtraArgument(apiClient)),
+    applyMiddleware(thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
   )
 );
 
-apiClient.authOK()
+AppClient.authOK()
   .then((res) => {
     try{
       ReactDOM.render(

@@ -1,2 +1,4 @@
-import transactionActionCreators from './transaction.js'
-export default {transactionActionCreators:transactionActionCreators};
+import transactionActionCreators from './transaction.js';
+import  authActionCreators from './auth.js';
+
+export {transactionActionCreators,authActionCreators};

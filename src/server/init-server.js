@@ -1,6 +1,6 @@
-import initDatabase from './init-database.js';
+import initDatabase from './bootstrap/database.js';
 import morgan from 'morgan';
-import express_Graphql from './express-graphql.js';
+import express_Graphql from './express-graphql/express-graphql.js';
 
 class InitServer {
     constructor(app, port, sqlitePath, publicPath) {

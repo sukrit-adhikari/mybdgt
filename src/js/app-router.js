@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import HomePage from './pages/homePage.jsx';
 import LoginPage from './pages/loginPage.jsx';
 import Error404Page from './error-pages/Error404Page.jsx';
-import userActionCreators from './action-creators/user.js';
+import {authActionCreators} from './action-creators/index.js';
 import TransactionFormPage from './pages/transactionFormPage.jsx';
 
 class AppRouter extends React.Component {
@@ -41,7 +41,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setLoggedIn : (payload)=> dispatch(userActionCreators.updateAuthStatus(payload))
+        setLoggedIn : (payload)=> dispatch(authActionCreators.updateAuthStatus(payload))
     }
 }
 

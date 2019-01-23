@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import NavBar from '../presentation/NavBar.jsx';
-import userActionCreators from '../../action-creators/user.js'
+import {authActionCreators} from '../../action-creators/index.js'
 
 class Header extends React.Component{
     constructor(props){
@@ -26,7 +26,7 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProsp = (dispatch) =>{
     return {
-        attemptLogout : () =>{dispatch(userActionCreators.attemptLogout())}
+        attemptLogout : () =>{dispatch(authActionCreators.attemptLogout())}
     }
 }
 

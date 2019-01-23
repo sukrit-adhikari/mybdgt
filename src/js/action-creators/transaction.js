@@ -1,22 +1,21 @@
 import actions from '../actions/index.js';
-import util from '../helpers/util.js';
+import fetching from '../graphql-client/fetching';
 
-const transactionActionCreators = {
+export default {
   refreshTransactions: function () {
     return (dispatch, getState, apiClient) => {
-      fetch('http://localhost:8181/api', {
-        method: 'post',
-        headers: {
-          "Content-Type": "application/json",
-          "session":util.getCookie('session')
-        },
-        body: JSON.stringify({operationName: null,
-          query:`{
-            transactions {
-              id,userId,amount,comment,accountId,credit,dateAndTime
-            } 
-          }`})
-      })
+      const body = JSON.stringify({operationName: null,
+        query:`{
+          transactions {
+            id,userId,amount,comment,accountId,credit,dateAndTime
+          } 
+        }`});
+        console.log(body);
+
+      fetching(null,
+        'post',
+        null,
+        body)
       .then(response => response.json(),(err)=>{return err;})
       .then(result => {
         result.data.transactions[0].amount = parseInt(Math.random()*1000);
@@ -25,5 +24,3 @@ const transactionActionCreators = {
     };
   }
 }
-
-export default transactionActionCreators;

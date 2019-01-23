@@ -1,40 +1,30 @@
-import ApolloClient from "apollo-boost";
-import gql from "graphql-tag";
-import { HttpLink } from 'apollo-link-http';
-import { connect } from 'react-redux';
-import userActionCreators from '../action-creators/user.js'
+import fetching from './fetching';
 
-class AppApolloClient extends ApolloClient {
-    constructor(options) {
-        super(Object.assign({
-            uri: "http://localhost:8181/api",
-        }, options))
-    }
-
-    // is authenticated
+const client = {
     authOK() {
-        var self = this;
         return new Promise((resolve, reject) => {
-            self
-                .query({
-                    query: gql`
-                    {
-                        transactions{
-                          id
-                        }
-                      }
-                `
-                })
-                .then(result => {
+            const body = JSON.stringify({
+                operationName: null,
+                query: `{
+                  transactions {
+                    id
+                  } 
+                }`});
+            fetching(null,
+                'post',
+                null,
+                body
+            ).then((res) => {
+                if (res.status === 401) {
+                    resolve(false);
+                } else if (res.status === 200) {
                     resolve(true);
-                },(err)=>{
-                    if(err.networkError.statusCode === 401 || err.networkError.statusCode === 403 ){
-                        resolve(false);
-                    }
-                    reject(err);
-                });
-        })
+                }
+            }, (err) => {
+                resolve(false);
+            })
+        });
     }
 }
 
-export default AppApolloClient;
+export default client;

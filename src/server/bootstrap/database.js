@@ -1,6 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
-const tableModel = require('./model/table.js');
-const seed = require('./model/seed.js');
+const tableModel = require('../model/table.js');
+const seed = require('../model/seed.js');
 const fs = require('fs');
 
 let db = null;
@@ -15,6 +15,12 @@ module.exports = {
         })
         return true;
     },
+    getDatabase: function(sqlitePath){
+        if(!db){
+            this.createDatabase(sqlitePath);
+        }
+        return db;
+    },
     checkDatabase: function(sqlitePath){
         if(!sqlitePath){
             throw new Error('Bad sqlitePath');
@@ -27,12 +33,6 @@ module.exports = {
             resolve({});
         });
         
-    },
-    getDatabase: function(sqlitePath){
-        if(!db){
-            this.createDatabase(sqlitePath);
-        }
-        return db;
     },
     initDatabase: function (sqlitePath) {
         const self = this;
@@ -58,6 +58,8 @@ module.exports = {
             .then(function () {
                 return tableModel.createAccountTable(db);
             }, function (err) { reject(err)})
+
+
             // Seed Table
             .then(function () {
                 return seed.tag(db);
@@ -71,6 +73,8 @@ module.exports = {
             .then(function () {
                 return seed.transactionFake(db);
             }, function (err) { reject(err) })
+
+            
             //at-last
             .then(function () {
                 resolve({ db: db });
