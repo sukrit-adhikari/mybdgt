@@ -19,9 +19,9 @@ const Fetching = (uri,method,headers,body) =>{
             body: body
           })
           .then((res)=>{
-              if(res.status === 401){
-                authActionCreators.updateAuthStatus({loggedIn:false});
-              }
+            //   if(res.status === 401){
+            //     authActionCreators.updateAuthStatus({loggedIn:false});
+            //   }
               resolve(res);
             },(err)=>{reject(err)});
         //   .then((res)=>{return res.json()},(err)=>{reject(err)}); 
