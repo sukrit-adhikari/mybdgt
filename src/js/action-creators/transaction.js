@@ -17,8 +17,10 @@ export default {
         body)
         .then(response => response.json(), (err) => { return err; })
         .then(result => {
-          result.data.transactions[0].amount = parseInt(Math.random() * 1000);
-          dispatch({ type: actions.REFRESH_TRANSACTIONS, payload: { transactions: result.data.transactions } });
+          if(result.data && result.data.transactions){
+            result.data.transactions[0].amount = parseInt(Math.random() * 1000);
+            dispatch({ type: actions.REFRESH_TRANSACTIONS, payload: { transactions: result.data.transactions } });
+          }
         });
     };
   }

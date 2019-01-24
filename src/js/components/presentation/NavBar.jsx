@@ -15,7 +15,7 @@ class NavBar extends React.Component {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 {this.props.loggedIn ? (<ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <a className="nav-link" href="#404">History</a>
+                        <a className="nav-link" href="#asdasd">History</a>
                     </li>
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"

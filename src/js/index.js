@@ -27,7 +27,7 @@ AppClient.authOK()
       ReactDOM.render(
         <Provider store={store}>
           <HashRouter>
-            <AppRouter loginCheck={res}></AppRouter>
+            <AppRouter loginCheck={res===true}></AppRouter>
           </HashRouter>
       </Provider>
       , document.getElementById('root'));

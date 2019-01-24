@@ -1,4 +1,5 @@
 import fetching from './fetching';
+import { CodeBuild } from 'aws-sdk';
 
 const client = {
     authOK() {
@@ -19,9 +20,11 @@ const client = {
                     resolve(false);
                 } else if (res.status === 200) {
                     resolve(true);
+                }else{
+                    reject({status:res.status});
                 }
             }, (err) => {
-                resolve(false);
+                reject(err);
             })
         });
     }
