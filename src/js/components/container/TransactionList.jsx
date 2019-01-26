@@ -30,7 +30,7 @@ class TransactionList extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-    return {transactions: JSON.parse(JSON.stringify(state.transaction.transactions)),
+    return {transactions: state.transaction.transactions,
         accounts: state.account.accounts
     }
 }
