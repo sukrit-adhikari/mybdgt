@@ -9,6 +9,7 @@ import LoginPage from './pages/loginPage.jsx';
 import Error404Page from './error-pages/Error404Page.jsx';
 import {authActionCreators} from './action-creators/index.js';
 import TransactionFormPage from './pages/transactionFormPage.jsx';
+import SignupPage from './pages/signupPage.jsx'
 
 class AppRouter extends React.Component {
     constructor(props) {
@@ -26,6 +27,7 @@ class AppRouter extends React.Component {
                     <Route exact path="/" component={HomePage} />
                     <Route path="*" component={Error404Page} />
                 </Switch>) : (<Switch>
+                    <Route path="/signup" component={SignupPage} />
                     <Route path="*" component={LoginPage} />
                 </Switch>)
                 )

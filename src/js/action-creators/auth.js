@@ -2,6 +2,37 @@ import actions from '../actions/index.js';
 import fetching from '../graphql-client/fetching';
 
 export default {
+  attemptSignup: function (username, password) {
+    return (dispatch, getState) => {
+      dispatch({ type: actions.SET_AUTHENTICATION_STATUS, payload: { loggingIn: true } });
+      const body = JSON.stringify({
+        operationName: null,
+        mutation: `{createUser(username:\"${username}\", password: \"${password}\"){username}}`
+      });
+      fetching('signup',
+        'post',
+        null,
+        body
+      )
+      .then(response => response.json(), (err) => { throw err; })
+      .then(json => {
+        if (json.errors) {
+          dispatch({
+            type: actions.SET_ERRORS, payload:
+              { errorMessages: json.errors.map(item => item.message), loggedIn: false, loggingIn: false, session: '' }
+          });
+        } else if (json && json.data && json.data.login) {
+          // const session = json.data.login.session;
+          // document.cookie = "session=" + session
+          // dispatch({
+          //   type: actions.SET_AUTHENTICATION_STATUS, payload:
+          //     { errorMessages: [], loggedIn: true, loggingIn: false, session: session }
+          // });
+        }
+      });
+    };
+  },
+
   attemptLogin: function (username, password) {
     return (dispatch, getState) => {
       dispatch({ type: actions.SET_AUTHENTICATION_STATUS, payload: { loggingIn: true } });
@@ -46,7 +77,7 @@ export default {
         null,
         JSON.stringify({})
       )
-      .then(response => window.location = '/', (err) => { window.location = '/' });
+        .then(response => window.location = '/', (err) => { window.location = '/' });
     };
   },
 }
