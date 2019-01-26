@@ -8,14 +8,6 @@ class Login extends React.Component {
     super(props);
   }
 
-  handleChangeUsername(event) {
-    this.setState({ username: event.target.value })
-  }
-
-  handleChangePassword(event) {
-    this.setState({ password: event.target.value })
-  }
-
   render() {
     return (<app-container>
       <LoginForm 

@@ -32,12 +32,16 @@ export default {
                 req.url = '/api'; // Redirect to GQL
                 console.log("Login Attempt.", "Redirect to GQL");
                 next(); 
-            } else if (Object.keys(session).includes(req.get(self.sessionString))) {
+            }else if (req.url === '/signup' && req.method === 'POST') {
+                req.url = '/api'; // Redirect to GQL
+                console.log("Signup attempt.", "Redirect to GQL");
+                next(); 
+            }else if (Object.keys(session).includes(req.get(self.sessionString))) {
                 console.log("Authenticated Request -> GQL");
                 next();
-            } else if (req.url === '/api/dev' || req.url === '/api/dev?') {
+            }else if (req.url === '/api/dev' || req.url === '/api/dev?') {
                 next();
-            } else {
+            }else {
                 console.log("Unauthenticated Request.");
                 send401(res);                
             }
