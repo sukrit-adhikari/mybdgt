@@ -6,7 +6,7 @@ class UserSignupGenericError extends GraphQLError {
   }
 }
 class UserLoginGenericError extends GraphQLError {
-  constructor(errors) {
+  constructor() {
     super('Error encountered while loggin in.');
   }
 }

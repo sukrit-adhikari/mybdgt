@@ -1,5 +1,4 @@
 import {PasswordHashError} from '../error/CreateNewUserError.js';
-
 // const bcrypt = require('bcrypt');
 // const saltRounds = 10;
 

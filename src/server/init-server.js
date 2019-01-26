@@ -1,6 +1,7 @@
 import initDatabase from './bootstrap/database.js';
 import morgan from 'morgan';
 import express_Graphql from './express-graphql/express-graphql.js';
+import express from 'express';
 
 class InitServer {
     constructor(app, port, sqlitePath, publicPath) {
@@ -39,6 +40,7 @@ class InitServer {
     setupEndpoints() {
         var self = this;
         try {
+            this.app.use(express.json());
             express_Graphql.applyApiMiddleware(self.app);
             // app.get('*', (req, res) => {
                 // res.sendFile(HTML_FILE);

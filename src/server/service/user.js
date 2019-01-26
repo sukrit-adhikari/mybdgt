@@ -16,13 +16,22 @@ class UserService {
 
     signup(user) {
         const self = this;
-        if(!user.username || !user.password){
-            return new UserSignupGenericError();
-        }
-        const passwordHash = self.PasswordUtil.hash(user.password);
-        let userObject = Object.assign({},user);
-        userObject = Object.assign(userObject,{id:null,password:passwordHash});
-        return createUser(self.db,userObject);
+        return new Promise((resolve,reject)=>{
+            if(!user.username || !user.password){
+                reject(new UserSignupGenericError());
+                return;
+            }
+            const passwordHash = PasswordUtil.hash(user.password);
+            let userObject = Object.assign({},user);
+            userObject = Object.assign(userObject,{id:null,password:passwordHash});
+            createUser(self.db,userObject)
+            .then((res)=>{
+                resolve(res);
+            },(err)=>{
+                console.log(err);
+                reject(err);
+            });
+        });
     }
 
     login(username,password,context) {
@@ -43,8 +52,8 @@ class UserService {
             },function(err){
                 reject(err);
             })
-        });
-       
+        }); 
+        //
     }
 }
   

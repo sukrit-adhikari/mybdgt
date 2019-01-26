@@ -12,14 +12,19 @@ const createUser = function (db,user) {
                 user.password
             ], function (err) {
                 if (err) {
-                    console.error(err);
+                    console.error("SQL Error",err);
                     if(err.code === sqliteCode.error.SQLITE_CONSTRAINT){
                         reject(new DuplicateUserNameError());
+                        return;
+                    }else{
+                        reject(new UserSignupGenericError());
+                        return;
                     }
-                    reject(new UserSignupGenericError());
+                }else{
+                    var lastId = this.lastID;
+                    resolve({ id: lastId,username:user.username });
+                    return;
                 }
-                var lastId = this.lastID;
-                resolve({ id: lastId,username:user.username });
             });
         } catch (err) {
             console.log(err);

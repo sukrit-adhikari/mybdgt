@@ -3,6 +3,9 @@ import util from '../helpers/util.js';
 
 const session = util.getCookie('session') || null;
 const defaultState = {
+  user:{
+    username:null
+  },
   auth:
     {
       session:session,

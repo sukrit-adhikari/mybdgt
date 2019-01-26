@@ -3,7 +3,6 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             const stmt = db.prepare("INSERT INTO user VALUES (?,?,?)");
             stmt.run([null, "admin", "admin"]);
-            stmt.run([null, "admin2", "admin2"]);
             stmt.finalize(function (err) {
                 if (err) {
                     reject(err);
@@ -45,7 +44,6 @@ module.exports = {
     transactionFake: function (db) {
         return new Promise(function (resolve, reject) {
             const stmt = db.prepare("INSERT INTO bdgt_transaction VALUES (?,?,?,?,?,?,?)");
-
             Array(10).fill().map((v, i) => i).forEach(function (value, index) {
                 stmt.run(
                     [

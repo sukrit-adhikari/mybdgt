@@ -7,7 +7,7 @@ export default {
       dispatch({ type: actions.SET_AUTHENTICATION_STATUS, payload: { loggingIn: true } });
       const body = JSON.stringify({
         operationName: null,
-        mutation: `{createUser(username:\"${username}\", password: \"${password}\"){username}}`
+        query: `mutation{createUser(username:\"${username}\", password: \"${password}\"){username}}`
       });
       fetching('signup',
         'post',
@@ -22,12 +22,10 @@ export default {
               { errorMessages: json.errors.map(item => item.message), loggedIn: false, loggingIn: false, session: '' }
           });
         } else if (json && json.data && json.data.login) {
-          // const session = json.data.login.session;
-          // document.cookie = "session=" + session
-          // dispatch({
-          //   type: actions.SET_AUTHENTICATION_STATUS, payload:
-          //     { errorMessages: [], loggedIn: true, loggingIn: false, session: session }
-          // });
+          dispatch({
+            type: actions.SET_AUTHENTICATION_STATUS, payload:
+              { errorMessages: [], loggedIn: true, loggingIn: false, session: session }
+          });
         }
       });
     };

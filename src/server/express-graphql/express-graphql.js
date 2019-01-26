@@ -8,10 +8,10 @@ let db = null;
 let $userService = null;
 
 var root = {
-    transactions: (args) => { return transaction.all(db) },
-    accounts: (args) => { return account.all(db); },
-    createUser: (args) => { return $userService.signup(args) },
-    login: (obj, context, info) => { return $userService.login(obj.username, obj.password, context) },
+    transactions: (args, context, info) => { return transaction.all(db) },
+    accounts: (args, context, info) => { return account.all(db); },
+    createUser: (args, context, info) => { return $userService.signup(args) },
+    login: (args, context, info) => { return $userService.login(args.username, args.password, context) },
 };
 
 export default {
@@ -23,15 +23,23 @@ export default {
     applyApiMiddleware: function (app) {
         this.initializeServices(app);
         authenticationMiddleware.unsecureAuthenticationMiddleware(app);
-        app.use('/api', graphqlHTTP({
-            schema: schema.schema,
-            rootValue: root,
-            graphiql: true,
-            context: {
-                addSession: (key,value) => {
-                    authenticationMiddleware.addSession(app,key,value);
+        app.use('/api',
+        (req,res) => {
+            graphqlHTTP({
+                schema: schema.schema,
+                rootValue: root,
+                graphiql: true,
+                context: {
+                    addSession: (key,value) => {
+                        authenticationMiddleware.addSession(app,key,value);
+                    }
+                },
+                formatError:(err)=>{
+                    // console.log(err);
+                    return res.status(400).json({message:"err"});
                 }
-            }
-        }));
+            })(req,res);
+        }
+        );
     },
 }
