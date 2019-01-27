@@ -24,7 +24,7 @@ export default {
         } else if (json && json.data && json.data.login) {
           dispatch({
             type: actions.SET_AUTHENTICATION_STATUS, payload:
-              { errorMessages: [], loggedIn: true, loggingIn: false, session: session }
+              { errorMessages: [], loggedIn: false, loggingIn: false, session: session }
           });
         }
       });

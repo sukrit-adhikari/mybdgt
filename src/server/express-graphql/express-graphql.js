@@ -34,10 +34,10 @@ export default {
                         authenticationMiddleware.addSession(app,key,value);
                     }
                 },
-                formatError:(err)=>{
-                    // console.log(err);
-                    return res.status(400).json({message:"err"});
-                }
+                // formatError:(err)=>{
+                //     // console.log(err);
+                //     return res.status(400).json({message:"err"});
+                // }
             })(req,res);
         }
         );

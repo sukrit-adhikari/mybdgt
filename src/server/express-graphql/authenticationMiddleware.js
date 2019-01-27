@@ -19,7 +19,7 @@ export default {
                 const newSession = {};
                 let deletedSession = {key:null,value:null};
                 Object.keys(session).map((item)=>{
-                    if(requestSessionHeader=== item){
+                    if(requestSessionHeader === item){
                         deletedSession.key = item; // REMOVE
                         deletedSession.value = session[item]; // REMOVE
                     }else{
