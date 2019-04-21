@@ -3,6 +3,8 @@ import morgan from 'morgan';
 import express_Graphql from './express-graphql/express-graphql.js';
 const exec = require('child_process').exec;
 import express from 'express';
+var env = require('node-env-file');
+import netMon from './init-netmon.js';
 
 class InitServer {
     constructor(app, port, sqlitePath, publicPath) {
@@ -30,6 +32,10 @@ class InitServer {
         const self = this;
         this.setupMiddleware();
         this.setupEndpoints();
+
+        //
+        self.initNetMon();
+
         this.app.listen(self.port, () => {
             console.log(`PORT ${self.port}`);
             console.log(`INDEX HTML ${self.publicPath}`);
@@ -65,6 +71,11 @@ class InitServer {
         });
         this.app.use(morgan(':method :url :status :res[content-length] - :response-time ms')); // logging
     }
+
+    initNetMon(){
+        
+    }
+
 }
 
 export default InitServer;
