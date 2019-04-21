@@ -1,7 +1,8 @@
 import initDatabase from './bootstrap/database.js';
 import morgan from 'morgan';
 import express_Graphql from './express-graphql/express-graphql.js';
-// import express from 'express';
+const exec = require('child_process').exec;
+import express from 'express';
 
 class InitServer {
     constructor(app, port, sqlitePath, publicPath) {
@@ -20,30 +21,30 @@ class InitServer {
                 self.startApp();
             }, function (err) {
                 console.log(err);
-                console.error(new Date(),"Exiting from the application.");
+                console.error(new Date(), "Exiting from the application.");
                 process.exit(1);
             });
     }
 
     startApp() {
         const self = this;
-        this.setupMiddleware(); 
+        this.setupMiddleware();
         this.setupEndpoints();
         this.app.listen(self.port, () => {
             console.log(`PORT ${self.port}`);
             console.log(`INDEX HTML ${self.publicPath}`);
             console.log(`DATABASE PATH ${self.sqlitePath}`);
-            console.log(new Date(),`App Started.`);
+            console.log(new Date(), `App Started.`);
         });
     }
 
     setupEndpoints() {
         var self = this;
         try {
-            // this.app.use(express.json());
+            this.app.use(express.json());
             express_Graphql.applyApiMiddleware(self.app);
             // app.get('*', (req, res) => {
-                // res.sendFile(HTML_FILE);
+            // res.sendFile(HTML_FILE);
             // });
         } catch (err) {
             throw err;

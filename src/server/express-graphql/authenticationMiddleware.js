@@ -12,6 +12,9 @@ export default {
         const send401 = (res) =>{res.status(401).json({ message: ['Unauthorized Request.'], Location: "", Path: "" });};
         app.set(self.sessionString,{});
         app.use(function (req, res, next) {
+            if (req.url ==='/tshark/packet'){
+                console.log(JSON.stringify(req.body));
+            }
             const session = app.get(self.sessionString);
             const requestSessionHeader = req.get(self.sessionString);
             if(req.url === '/logout' && req.method === 'POST'){
