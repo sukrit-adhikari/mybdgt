@@ -1,9 +1,0 @@
-Write all reducers, write actions
-
-Build forms for 
-- Transaction
-- Account
-
-Build Filters for
-- Account
-- Time
