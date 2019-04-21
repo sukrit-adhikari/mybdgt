@@ -4,7 +4,7 @@ import express_Graphql from './express-graphql/express-graphql.js';
 const exec = require('child_process').exec;
 import express from 'express';
 var env = require('node-env-file');
-import netMon from './init-netmon.js';
+import NetMon from './Netmon.js';
 
 class InitServer {
     constructor(app, port, sqlitePath, publicPath) {
@@ -73,6 +73,7 @@ class InitServer {
     }
 
     initNetMon(){
+        const nm = new NetMon();
         
     }
 
