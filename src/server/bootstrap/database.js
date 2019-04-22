@@ -39,40 +39,40 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             const db = self.getDatabase(sqlitePath);
             
-            // if (sqlitePath && !sqlitePath.startsWith(':') && fs.existsSync(sqlitePath)) {
-            //     resolve(db);
-            //     return;
-            // }
+            if (sqlitePath && !sqlitePath.startsWith(':') && fs.existsSync(sqlitePath)) {
+                resolve(db);
+                return;
+            }
 
             // Create Table
             tableModel.createUserTable(db)
-            .then(function () { 
-                return tableModel.createTagTable(db);
-            }, function (err) { reject(err)})
-            .then(function () { 
-                return tableModel.createTagGroupTable(db);
-            }, function (err) { reject(err)})
-            .then(function () {
-                return tableModel.createTransactionTable(db);
-            }, function (err) { reject(err)})
-            .then(function () {
-                return tableModel.createAccountTable(db);
-            }, function (err) { reject(err)})
+            // .then(function () { 
+            //     return tableModel.createTagTable(db);
+            // }, function (err) { reject(err)})
+            // .then(function () { 
+            //     return tableModel.createTagGroupTable(db);
+            // }, function (err) { reject(err)})
+            // .then(function () {
+            //     return tableModel.createTransactionTable(db);
+            // }, function (err) { reject(err)})
+            // .then(function () {
+            //     return tableModel.createAccountTable(db);
+            // }, function (err) { reject(err)})
 
 
             // Seed Table
-            .then(function () {
-                return seed.tag(db);
-            }, function (err) { reject(err)})
+            // .then(function () {
+            //     return seed.tag(db);
+            // }, function (err) { reject(err)})
             .then(function () {
                 return seed.user(db);
             }, function (err) { reject(err) })
-            .then(function () {
-                return seed.account(db);
-            }, function (err) { reject(err) })
-            .then(function () {
-                return seed.transactionFake(db);
-            }, function (err) { reject(err) })
+            // .then(function () {
+            //     return seed.account(db);
+            // }, function (err) { reject(err) })
+            // .then(function () {
+            //     return seed.transactionFake(db);
+            // }, function (err) { reject(err) })
 
             
             //at-last
