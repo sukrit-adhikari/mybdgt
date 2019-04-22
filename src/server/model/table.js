@@ -16,40 +16,41 @@ module.exports = {
     createUserTable: function (db) {
         return this.executeSQL(db,this.user());
     },
-    transaction: function () {
-        return 'CREATE TABLE bdgt_transaction ('+
-        'id INTEGER PRIMARY KEY AUTOINCREMENT, '+
-        'user_id INTEGER NOT NULL , '+
-        'amount NUMBER NOT NULL, '+
-        'comment TEXT NULL ,`account_id` INTEGER , '+
-        'credit INTEGER NOT NULL, '+
-        'date_and_time TEXT NOT NULL '+
+    packet: function () {
+        return 'CREATE TABLE `packet` ('+
+        '`id` INTEGER PRIMARY KEY AUTOINCREMENT, '+
+        '`timestamp` INTEGER ,'+
+        '`frame` TEXT NULL ,'+
+        '`eth` TEXT NULL ,'+
+        '`ip` TEXT NULL ,'+
+        '`tcp` TEXT NULL ,'+
+        '`udp` TEXT NULL ,'+
+        '`data` TEXT NULL '+
         ')';
-        //        'FOREIGN KEY(user_id) REFERENCES user(id)'+
     },
-    createTransactionTable: function (db) {
-        return this.executeSQL(db,this.transaction());
+    createPacketTable: function (db) {
+        return this.executeSQL(db,this.packet());
     },
-    account: function () {
-        return "CREATE TABLE `account` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `display_name` TEXT NOT NULL, `user_id` INTEGER NOT NULL)"
-    },
-    createAccountTable: function (db) {
-        return this.executeSQL(db,this.account());
-    },
-    tagGroup: function () {
-        return 'CREATE TABLE `tag_group` '+
-                '( `id` INTEGER PRIMARY KEY AUTOINCREMENT, '+
-                '`user_id` INTEGER NOT NULL , '+
-                '`display_name` TEXT NOT NULL, '+
-                '`tag_group_id` INTEGER)';
-    },
-    createTagGroupTable: function (db) {
-        return this.executeSQL(db,this.tagGroup());
-    },
-    tag: function () {
-        return "CREATE TABLE `tag` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER NOT NULL ,`display_name` TEXT NOT NULL, `tag_group_id` INTEGER)"
-    },
-    createTagTable: function (db) {
-        return this.executeSQL(db,this.tag());
-    },
+    // account: function () {
+    //     return "CREATE TABLE `account` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `display_name` TEXT NOT NULL, `user_id` INTEGER NOT NULL)"
+    // },
+    // createAccountTable: function (db) {
+    //     return this.executeSQL(db,this.account());
+    // },
+    // tagGroup: function () {
+    //     return 'CREATE TABLE `tag_group` '+
+    //             '( `id` INTEGER PRIMARY KEY AUTOINCREMENT, '+
+    //             '`user_id` INTEGER NOT NULL , '+
+    //             '`display_name` TEXT NOT NULL, '+
+    //             '`tag_group_id` INTEGER)';
+    // },
+    // createTagGroupTable: function (db) {
+    //     return this.executeSQL(db,this.tagGroup());
+    // },
+    // tag: function () {
+    //     return "CREATE TABLE `tag` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER NOT NULL ,`display_name` TEXT NOT NULL, `tag_group_id` INTEGER)"
+    // },
+    // createTagTable: function (db) {
+    //     return this.executeSQL(db,this.tag());
+    // },
 };

@@ -46,9 +46,9 @@ module.exports = {
 
             // Create Table
             tableModel.createUserTable(db)
-            // .then(function () { 
-            //     return tableModel.createTagTable(db);
-            // }, function (err) { reject(err)})
+            .then(function () { 
+                return tableModel.createPacketTable(db);
+            }, function (err) { reject(err)})
             // .then(function () { 
             //     return tableModel.createTagGroupTable(db);
             // }, function (err) { reject(err)})
@@ -74,7 +74,6 @@ module.exports = {
             //     return seed.transactionFake(db);
             // }, function (err) { reject(err) })
 
-            
             //at-last
             .then(function () {
                 resolve({ db: db });

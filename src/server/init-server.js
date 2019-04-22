@@ -20,7 +20,7 @@ class InitServer {
             .initDatabase(self.sqlitePath)
             .then(function (res) {
                 self.app.set('db', res.db);
-                self.startApp();
+                self.startApp(res.db);
             }, function (err) {
                 console.log(err);
                 console.error(new Date(), "Exiting from the application.");
@@ -28,13 +28,13 @@ class InitServer {
             });
     }
 
-    startApp() {
+    startApp(dataBase) {
         const self = this;
         this.setupMiddleware();
         this.setupEndpoints();
 
         //
-        self.initNetMon();
+        self.initNetMon(dataBase);
 
         this.app.listen(self.port, () => {
             console.log(`PORT ${self.port}`);
@@ -72,9 +72,8 @@ class InitServer {
         this.app.use(morgan(':method :url :status :res[content-length] - :response-time ms')); // logging
     }
 
-    initNetMon(){
-        const nm = new NetMon();
-        
+    initNetMon(dataBase){
+        const nm = new NetMon(dataBase);
     }
 
 }
