@@ -46,13 +46,14 @@ class NetMon {
     initCapRead(path, filePattern) {
         fs.readdir(path, function (err, items) {
             if(items.length < 2){
+                console.log("Skipping packet read since there is just 1 file in the directory.");
                 return ; // Wait for a full file so there is no error while reading a half baked binary file
             }
             console.log('Ignoring last file',items.pop());
             for (var i = 0; i < items.length; i++) {
                 var file = path + '/' + items[i];
                 console.log("Input File", file);
-                
+
                 if (processedFiles.includes(items[i]) || String(file).indexOf(filePattern) < 0) {
                     console.log("Ignoring File", items[i]);
                     continue;
@@ -60,21 +61,16 @@ class NetMon {
 
                 processedFiles.push(items[i]);
                 console.log("Processing File", file);
-
                 var binData = '';
                 var spawn = require('child_process').spawn,
                     ls = spawn('tshark', ['-r', file, '-T', 'ek']);
 
                 ls.on('exit', function (code, signal) {
-                    console.log('child process exited with ' +
-                        `code ${code} and signal ${signal}`);
+                    console.log('child process exited with '+`code ${code} and signal ${signal}`);
                 });
 
                 ls.stdout.on('data', function (data) {
-                    var arr = String(data).split('\n');
-                    for (var i = 0; i < arr.length; i++) {
-                        packetInsert.readWholeFile(arr[i]);
-                    }
+                    binData=binData+data;
                 });
 
                 ls.stderr.on('data', function (data) {
@@ -82,8 +78,10 @@ class NetMon {
                 });
 
                 ls.on('close', function (code) {
+                    packetInsert.readWholeFile(binData);
                     console.log('child process exited with code ' + code);
                 });
+
             }
         });
     }

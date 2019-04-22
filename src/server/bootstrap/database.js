@@ -39,10 +39,10 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             const db = self.getDatabase(sqlitePath);
             
-            if (sqlitePath && !sqlitePath.startsWith(':') && fs.existsSync(sqlitePath)) {
-                resolve(db);
-                return;
-            }
+            // if (sqlitePath && !sqlitePath.startsWith(':') && fs.existsSync(sqlitePath)) {
+            //     resolve(db);
+            //     return;
+            // }
 
             // Create Table
             tableModel.createUserTable(db)
