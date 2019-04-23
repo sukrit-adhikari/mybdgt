@@ -13,7 +13,8 @@ class PacketInsert {
         var packetInsertDb = {};
         return new Promise(function (resolve, reject) {
             packetInsertDb.timestamp = packetInput.timestamp;
-            packetInsertDb.frame = JSON.stringify(packetInput.layers.frame);
+            console.log(packetInput.layers.frame);
+            packetInsertDb.frame = JSON.stringify(Object.assign({},{protocols:packetInput.layers.frame.frame_frame_protocols}));
             packetInsertDb.eth = JSON.stringify(packetInput.layers.eth);
             packetInsertDb.ip = JSON.stringify(packetInput.layers.ip);
             packetInsertDb.tcp = packetInput.layers.tcp ? JSON.stringify(packetInput.layers.tcp) : null;

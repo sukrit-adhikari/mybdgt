@@ -46,7 +46,7 @@ class NetMon {
     initCapRead(path, filePattern) {
         fs.readdir(path, function (err, items) {
             if(items.length < 2){
-                console.log("Skipping packet read since there is just 1 file in the directory.");
+                console.log('No of files',items.length,'Skipping');
                 return ; // Wait for a full file so there is no error while reading a half baked binary file
             }
             console.log('Ignoring last file',items.pop());
