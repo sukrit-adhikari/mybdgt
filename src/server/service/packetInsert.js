@@ -11,18 +11,22 @@ class PacketInsert {
     dbInsert(packetInput){
         var self = this;
         var packetInsertDb = {};
-        return new Promise(function (resolve, reject) {
+        // return new Promise(function (resolve, reject) {
             packetInsertDb.timestamp = packetInput.timestamp;
-            packetInsertDb.frame = JSON.stringify(Object.assign({},
-                {length:packetInput.layers.frame.frame_frame_len,
-                protocols:packetInput.layers.frame.frame_frame_protocols}));
+
+            packetInsertDb.frame = packetInput.layers.frame ? JSON.stringify(Object.assign({},
+                {
+                // length:packetInput.layers.frame.frame_frame_len,
+                protocols:packetInput.layers.frame.frame_frame_protocols
+                })) : null;
             
-            packetInsertDb.eth = JSON.stringify(Object.assign({},
-                {dstResolved:packetInput.layers.eth.eth_dst_eth_dst_resolved,
+            packetInsertDb.eth = packetInput.layers.eth ?  JSON.stringify(Object.assign({},
+                {
+                dstResolved:packetInput.layers.eth.eth_dst_eth_dst_resolved,
                 srcResolved:packetInput.layers.eth.eth_src_eth_src_resolved,
                 src:packetInput.layers.eth.eth_eth_src,
                 dst:packetInput.layers.eth.eth_eth_dst,
-                }));
+                })) : null;
 
             packetInsertDb.ip = packetInput.layers.ip ? JSON.stringify(Object.assign({},
                 {version:packetInput.layers.ip.ip_ip_version,
@@ -42,9 +46,11 @@ class PacketInsert {
             // packetInsertDb.udp = packetInput.layers.udp ? JSON.stringify(packetInput.layers.udp) : null;
             packetInsertDb.udp = null;
 
-            self.db.run("INSERT INTO packet VALUES (?,?,?,?,?,?,?,?)",
+            self.db.run("INSERT INTO packet VALUES (?,?,?,?,?,?,?,?,?)",
                 [null,
                 packetInsertDb.timestamp, 
+                null,
+                // Object.keys(packetInput.layers ? packetInput.layers : {}), 
                 packetInsertDb.frame,
                 packetInsertDb.eth,
                 packetInsertDb.ip,
@@ -52,21 +58,26 @@ class PacketInsert {
                 packetInsertDb.udp,
                 null], function (err) {
                     if (err) {
-                        reject(err);
+                        throw err;
+                        // reject(err);
                     }
-                resolve(packetInsertDb);
+                // resolve(packetInsertDb);
             });
-        });
+        // });
     }
 
     readWholeFile(rawString){
         var self = this;
         var arr = String(rawString).split('\n');
+        console.log(arr.length);
         for (var i = 0; i < arr.length; i++) {
             try {
                 var packet = JSON.parse(arr[i]);
                 if (packet && packet.layers) {
-                    self.dbInsert(packet).then((res)=>{/*console.log("Success")*/},(err)=>{console.error(err)});
+                    self.dbInsert(packet);
+                    // .then(
+                    // (res)=>{/*console.log('.')*/},
+                    // (err)=>{console.error(err)});
                 }
             } catch (error) {
                     

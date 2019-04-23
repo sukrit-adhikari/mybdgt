@@ -20,6 +20,7 @@ module.exports = {
         return 'CREATE TABLE `packet` ('+
         '`id` INTEGER PRIMARY KEY AUTOINCREMENT, '+
         '`timestamp` INTEGER ,'+
+        '`layers` TEXT NULL ,'+
         '`frame` TEXT NULL ,'+
         '`eth` TEXT NULL ,'+
         '`ip` TEXT NULL ,'+

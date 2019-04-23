@@ -52,7 +52,6 @@ class NetMon {
             console.log('Ignoring last file',items.pop());
             for (var i = 0; i < items.length; i++) {
                 var file = path + '/' + items[i];
-                console.log("Input File", file);
 
                 if (processedFiles.includes(items[i]) || String(file).indexOf(filePattern) < 0) {
                     console.log("Ignoring File", items[i]);

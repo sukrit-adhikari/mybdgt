@@ -2,6 +2,7 @@ const sqlite3 = require("sqlite3").verbose();
 const tableModel = require('../model/table.js');
 const seed = require('../model/seed.js');
 const fs = require('fs');
+const uuidv4 = require('uuid/v4');
 
 let db = null;
 const memoryPath = ":memory:";
@@ -36,8 +37,14 @@ module.exports = {
     },
     initDatabase: function (sqlitePath) {
         const self = this;
+        const sqliteFile = '/tmp/network-monitor-database-'+uuidv4()+'.sqlite';
+        fs.writeFile(sqliteFile,'', function (err) {
+            if (err) throw err;
+            console.log('Database File '+sqliteFile);
+        }); 
         return new Promise(function (resolve, reject) {
-            const db = self.getDatabase(sqlitePath);
+            // const db = self.getDatabase(sqlitePath);
+            const db = self.getDatabase(sqliteFile);
             
             // if (sqlitePath && !sqlitePath.startsWith(':') && fs.existsSync(sqlitePath)) {
             //     resolve(db);
