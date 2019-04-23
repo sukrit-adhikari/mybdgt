@@ -11,7 +11,7 @@ class NetMon {
         var netMonUUID = uuidv4();
         packetInsert = new PacketInsertClass(dataBase);
 
-        const mountLocalLocation = '/tmp/' + process.env.cap_file_location_start + '-' + netMonUUID;
+        const mountLocalLocation = '/tmp/' + process.env.cap_file_location_start + '-' + netMonUUID.substring(0, 8);
         const mountRAMSize = process.env.cap_ram_size;
         const capFilesize = process.env.cap_file_size;
         const capFilePattern = process.env.cap_file_pattern + '-' + netMonUUID.substring(0, 8);
