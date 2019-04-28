@@ -11,13 +11,13 @@ module.exports = {
         });
     },
     user: function () {
-        return "CREATE TABLE `user` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL UNIQUE, `password` TEXT NOT NULL )"
+        return "CREATE TABLE IF NOT EXISTS `user` ( `id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL UNIQUE, `password` TEXT NOT NULL )"
     },
     createUserTable: function (db) {
         return this.executeSQL(db,this.user());
     },
     packet: function () {
-        return 'CREATE TABLE `packet` ('+
+        return 'CREATE TABLE IF NOT EXISTS `packet` ('+
         '`id` INTEGER PRIMARY KEY AUTOINCREMENT, '+
         '`timestamp` INTEGER ,'+
         '`layers` TEXT NULL ,'+

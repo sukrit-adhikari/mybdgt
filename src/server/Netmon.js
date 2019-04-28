@@ -4,7 +4,7 @@ var fs = require('fs');
 const uuidv4 = require('uuid/v4');
 const processedFiles = [];
 let packetInsert = {};
-
+const deleteFileList = [];
 class NetMon {
 
     constructor(dataBase) {
@@ -34,7 +34,17 @@ class NetMon {
         var self = this;
         setInterval(function () {
             self.initCapRead(mountLocalLocation, capFilePattern);
+            self.removeProcessedFiles();
         }, 5000);
+    }
+
+    removeProcessedFiles(){
+        const removeFileCmd = 'rm ';
+        deleteFileList.forEach(function(item){
+            if(item && item.toString() && item.indexOf('/tmp')===0){ // be safe
+                exec(removeFileCmd+item);
+            }
+        });
     }
 
     initCap(cmdCreateMount, cmdMountRAM, cmdStartCap) {
@@ -44,11 +54,12 @@ class NetMon {
     }
 
     initCapRead(path, filePattern) {
-        fs.readdir(path, function (err, items) {
-            if(items.length < 2){
-                console.log('No of files',items.length,'Skipping');
+        fs.readdir(path, function (err, allItems) {
+            if(allItems.length < 2){
+                console.log('No of files',allItems.length,'Skipping');
                 return ; // Wait for a full file so there is no error while reading a half baked binary file
             }
+            const items = allItems.slice(0, 3);
             console.log('Ignoring last file',items.pop());
             for (var i = 0; i < items.length; i++) {
                 var file = path + '/' + items[i];
@@ -79,6 +90,8 @@ class NetMon {
                 ls.on('close', function (code) {
                     packetInsert.readWholeFile(binData);
                     console.log('child process exited with code ' + code);
+                    console.log('Adding',file,'to delete list');
+                    deleteFileList.push(file);
                 });
 
             }
