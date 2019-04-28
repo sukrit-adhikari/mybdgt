@@ -1,10 +1,13 @@
 import PacketInsertClass from './service/packetInsert.js';
 const exec = require('child_process').exec;
+const spawn = require('child_process').spawn;
+const spawnSync = require('child_process').spawnSync;
 var fs = require('fs');
 const uuidv4 = require('uuid/v4');
 const processedFiles = [];
 let packetInsert = {};
 const deleteFileList = [];
+let processingFileCount = 0;
 class NetMon {
 
     constructor(dataBase) {
@@ -35,16 +38,21 @@ class NetMon {
         setInterval(function () {
             self.initCapRead(mountLocalLocation, capFilePattern);
             self.removeProcessedFiles();
-        }, 5000);
+            console.log('Busy','count',processingFileCount);
+            if(processingFileCount > 2){
+                console.log('Busy','Skipping');
+                return;
+            }
+        }, 500);
     }
 
     removeProcessedFiles(){
         const removeFileCmd = 'rm ';
-        deleteFileList.forEach(function(item){
-            if(item && item.toString() && item.indexOf('/tmp')===0){ // be safe
-                exec(removeFileCmd+item);
-            }
-        });
+        const item = deleteFileList.pop();
+        if(item && item.toString() && item.indexOf('/tmp')===0){ // be safe
+            console.log('Deleting file',item);
+            exec(removeFileCmd+item);
+        }
     }
 
     initCap(cmdCreateMount, cmdMountRAM, cmdStartCap) {
@@ -59,7 +67,7 @@ class NetMon {
                 console.log('No of files',allItems.length,'Skipping');
                 return ; // Wait for a full file so there is no error while reading a half baked binary file
             }
-            const items = allItems.slice(0, 3);
+            const items = allItems.sort().reverse().slice(0, 3);
             console.log('Ignoring last file',items.pop());
             for (var i = 0; i < items.length; i++) {
                 var file = path + '/' + items[i];
@@ -71,28 +79,17 @@ class NetMon {
 
                 processedFiles.push(items[i]);
                 console.log("Processing File", file);
-                var binData = '';
-                var spawn = require('child_process').spawn,
-                    ls = spawn('tshark', ['-r', file, '-T', 'ek']);
+                processingFileCount = processingFileCount+1;
+                
+                var ls = spawnSync('tshark', ['-r', file, '-T', 'ek']);
 
-                ls.on('exit', function (code, signal) {
-                    console.log('child process exited with '+`code ${code} and signal ${signal}`);
-                });
-
-                ls.stdout.on('data', function (data) {
-                    binData=binData+data;
-                });
-
-                ls.stderr.on('data', function (data) {
-                    console.log('Stderr '+ data);
-                });
-
-                ls.on('close', function (code) {
-                    packetInsert.readWholeFile(binData);
-                    console.log('child process exited with code ' + code);
-                    console.log('Adding',file,'to delete list');
-                    deleteFileList.push(file);
-                });
+                processingFileCount = processingFileCount-1;
+                packetInsert.readWholeFile(ls.output);
+                // if(parseInt(code) !== 0){
+                //     console.log('Child process exited with code ' + code);
+                // }
+                console.log('Adding',file,'to delete list');
+                deleteFileList.push(file);
 
             }
         });

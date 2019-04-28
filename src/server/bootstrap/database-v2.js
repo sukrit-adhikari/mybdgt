@@ -18,7 +18,7 @@ module.exports = {
             const sqliteFile = '/tmp/network-monitor-database-'+uuidv4().substring(0, 4)+'.sqlite';
             fs.writeFile(sqliteFile,'', function (err) {
                 if (err) throw err;
-                console.log('Database File '+sqliteFile);
+                console.log('Database File',sqliteFile);
                 dbPath = sqliteFile;
 
                 db = new sqlite3.Database(dbPath, function (err) {

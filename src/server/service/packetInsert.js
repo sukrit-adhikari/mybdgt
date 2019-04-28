@@ -66,11 +66,11 @@ class PacketInsert {
         // });
     }
 
-    readWholeFile(rawString){
+    readWholeFile(allRows){
         var self = this;
-        var arr = String(rawString).split('\n');
-        console.log(arr.length);
-        for (var i = 0; i < arr.length; i++) {
+        var arr = allRows.toString().split('\n');
+        console.log('Lines in File',arr.length);
+        for (var i = 0; i < arr.length; i=i+1) {
             try {
                 var packet = JSON.parse(arr[i]);
                 if (packet && packet.layers) {
@@ -78,6 +78,8 @@ class PacketInsert {
                     // .then(
                     // (res)=>{/*console.log('.')*/},
                     // (err)=>{console.error(err)});
+                }else{
+                    // console.log(i,'Skipping line',packet);
                 }
             } catch (error) {
                     
