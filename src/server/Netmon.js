@@ -36,23 +36,31 @@ class NetMon {
 
         var self = this;
         setInterval(function () {
-            self.initCapRead(mountLocalLocation, capFilePattern);
-            self.removeProcessedFiles();
-            console.log('Busy','count',processingFileCount);
-            if(processingFileCount > 2){
-                console.log('Busy','Skipping');
-                return;
-            }
-        }, 500);
+            process.nextTick(function(){
+                if(processingFileCount > 2){
+                    console.log('Busy','Skipping');
+                    return;
+                }else if(processingFileCount !== 0){
+                    console.log('Busy','count',processingFileCount);
+                }
+                self.initCapRead(mountLocalLocation, capFilePattern);
+                self.removeProcessedFiles();
+            });
+        }, 100);
     }
 
     removeProcessedFiles(){
         const removeFileCmd = 'rm ';
-        const item = deleteFileList.pop();
-        if(item && item.toString() && item.indexOf('/tmp')===0){ // be safe
-            console.log('Deleting file',item);
-            exec(removeFileCmd+item);
+        for(var i = 0 ; i < deleteFileList.length ; i ++){
+            let item = deleteFileList.pop();
+            if(item){
+                if(item && item.toString() && item.indexOf('/tmp')===0){ // be safe
+                    console.log('DEL FL',item);
+                    exec(removeFileCmd+item);
+                }
+            }
         }
+
     }
 
     initCap(cmdCreateMount, cmdMountRAM, cmdStartCap) {
@@ -64,21 +72,20 @@ class NetMon {
     initCapRead(path, filePattern) {
         fs.readdir(path, function (err, allItems) {
             if(allItems.length < 2){
-                console.log('No of files',allItems.length,'Skipping');
+                // console.log('No of files',allItems.length,'Skipping');
                 return ; // Wait for a full file so there is no error while reading a half baked binary file
             }
             const items = allItems.sort().reverse().slice(0, 3);
-            console.log('Ignoring last file',items.pop());
             for (var i = 0; i < items.length; i++) {
                 var file = path + '/' + items[i];
 
                 if (processedFiles.includes(items[i]) || String(file).indexOf(filePattern) < 0) {
-                    console.log("Ignoring File", items[i]);
+                    console.log("IGN FL", items[i]);
                     continue;
                 }
 
                 processedFiles.push(items[i]);
-                console.log("Processing File", file);
+                console.log("PRC FL", file);
                 processingFileCount = processingFileCount+1;
                 
                 var ls = spawnSync('tshark', ['-r', file, '-T', 'ek']);
@@ -88,7 +95,7 @@ class NetMon {
                 // if(parseInt(code) !== 0){
                 //     console.log('Child process exited with code ' + code);
                 // }
-                console.log('Adding',file,'to delete list');
+                console.log('+DL LST',file);
                 deleteFileList.push(file);
 
             }

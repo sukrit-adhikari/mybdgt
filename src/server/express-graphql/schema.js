@@ -33,8 +33,8 @@ module.exports =
                 type Transaction {
                     id: Int
                     userId: Int
-                    comment: String
-                    amount: Float
+                    frame: String
+                    layers: String
                     accountId: Int 
                     credit: Int
                     dateAndTime: String
