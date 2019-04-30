@@ -32,12 +32,14 @@ module.exports =
                 }
                 type Transaction {
                     id: Int
-                    userId: Int
-                    frame: String
+                    timestamp: Int
                     layers: String
-                    accountId: Int 
-                    credit: Int
-                    dateAndTime: String
+                    frame: String
+                    eth: String 
+                    ip: String
+                    tcp: String
+                    udp: String
+                    data: String
                 }
                 type Account {
                     id: Int

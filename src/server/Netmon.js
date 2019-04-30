@@ -54,7 +54,7 @@ class NetMon {
         for(var i = 0 ; i < deleteFileList.length ; i ++){
             let item = deleteFileList.pop();
             if(item){
-                if(item && item.toString() && item.indexOf('/tmp')===0){ // be safe
+                if(item && item.toString() && item.indexOf('/tmp/')===0){ // be safe
                     console.log('DEL FL',item);
                     exec(removeFileCmd+item);
                 }
@@ -80,7 +80,7 @@ class NetMon {
                 var file = path + '/' + items[i];
 
                 if (processedFiles.includes(items[i]) || String(file).indexOf(filePattern) < 0) {
-                    console.log("IGN FL", items[i]);
+                    console.log("IGN FL", path+'/'+items[i]);
                     continue;
                 }
 

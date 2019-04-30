@@ -56,9 +56,9 @@ module.exports = {
             .then(function () { 
                 return tableModel.createPacketTable(db);
             }, function (err) { reject(err)})
-            // .then(function () { 
-            //     return tableModel.createTagGroupTable(db);
-            // }, function (err) { reject(err)})
+            .then(function () { 
+                return tableModel.createHashStoreTable(db);
+            }, function (err) { reject(err)})
             // .then(function () {
             //     return tableModel.createTransactionTable(db);
             // }, function (err) { reject(err)})

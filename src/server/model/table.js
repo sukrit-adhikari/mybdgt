@@ -16,6 +16,12 @@ module.exports = {
     createUserTable: function (db) {
         return this.executeSQL(db,this.user());
     },
+    hashStore: function () {
+        return "CREATE TABLE IF NOT EXISTS `hashStore` (`hash` TEXT NOT NULL UNIQUE, `value` TEXT NOT NULL UNIQUE )"
+    },
+    createHashStoreTable: function (db) {
+        return this.executeSQL(db,this.hashStore());
+    },
     packet: function () {
         return 'CREATE TABLE IF NOT EXISTS `packet` ('+
         '`id` INTEGER PRIMARY KEY AUTOINCREMENT, '+
