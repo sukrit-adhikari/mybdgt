@@ -8,7 +8,7 @@ export default {
         operationName: null,
         query: `{
           transactions {
-            id,userId,amount,comment,accountId,credit,dateAndTime
+            id,eth
           } 
         }`});
       fetching(null,

@@ -5,7 +5,7 @@ module.exports =
         schema:
             buildSchema(`
                 type Query {
-                    transactions: [Transaction]
+                    transactions(afterId:Int, count:Int ): [Transaction]
                     accounts: [Account]
                     login(
                         username: String!

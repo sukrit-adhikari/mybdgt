@@ -8,7 +8,7 @@ let db = null;
 let $userService = null;
 
 var root = {
-    transactions: (args, context, info) => { return transaction.all(db) },
+    transactions: (args, context, info) => { return transaction.all(db,args) },
     accounts: (args, context, info) => { return account.all(db); },
     createUser: (args, context, info) => { return $userService.signup(args) },
     login: (args, context, info) => { return $userService.login(args.username, args.password, context) },
